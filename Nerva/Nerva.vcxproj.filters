@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="NervaLib">
+      <UniqueIdentifier>{95bf3ecd-4bbf-47eb-b9a6-8479012e3ffc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui">
+      <UniqueIdentifier>{72756bea-44d2-4142-a0fe-4a2a849c0ad1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{6d005e6b-4859-4816-9751-f3199049756e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="External\ImGui\imgui.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\ImGui\imgui_draw.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\ImGui\imgui_impl_dx11.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\ImGui\imgui_impl_win32.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\ImGui\imgui_ja_gryph_ranges.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\ImGui\imgui_widgets.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\framework.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="NervaLib\frame_buffer.cpp">
+      <Filter>NervaLib</Filter>
+    </ClCompile>
+    <ClCompile Include="NervaLib\key_input.cpp">
+      <Filter>NervaLib</Filter>
+    </ClCompile>
+    <ClCompile Include="NervaLib\render_state.cpp">
+      <Filter>NervaLib</Filter>
+    </ClCompile>
+    <ClCompile Include="NervaLib\shader.cpp">
+      <Filter>NervaLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\scene.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="NervaLib\fullscreen_quad.cpp">
+      <Filter>NervaLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\game_scene.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="NervaLib\texture.cpp">
+      <Filter>NervaLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\component.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="NervaLib\model.cpp">
+      <Filter>NervaLib</Filter>
+    </ClCompile>
+    <ClCompile Include="NervaLib\model_resource.cpp">
+      <Filter>NervaLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\model_renderer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\model_object.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\camera.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="NervaLib\sprite.cpp">
+      <Filter>NervaLib</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="External\ImGui\imconfig.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\ImGui\imgui.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\ImGui\imgui_impl_dx11.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\ImGui\imgui_impl_win32.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\ImGui\imgui_internal.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\ImGui\imstb_rectpack.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\ImGui\imstb_textedit.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\ImGui\imstb_truetype.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\framework.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\imgui.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="NervaLib\high_resolution_timer.h">
+      <Filter>NervaLib</Filter>
+    </ClInclude>
+    <ClInclude Include="NervaLib\misc.h">
+      <Filter>NervaLib</Filter>
+    </ClInclude>
+    <ClInclude Include="NervaLib\frame_buffer.h">
+      <Filter>NervaLib</Filter>
+    </ClInclude>
+    <ClInclude Include="NervaLib\key_input.h">
+      <Filter>NervaLib</Filter>
+    </ClInclude>
+    <ClInclude Include="NervaLib\render_state.h">
+      <Filter>NervaLib</Filter>
+    </ClInclude>
+    <ClInclude Include="NervaLib\shader.h">
+      <Filter>NervaLib</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\scene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\game_scene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="NervaLib\fullscreen_quad.h">
+      <Filter>NervaLib</Filter>
+    </ClInclude>
+    <ClInclude Include="NervaLib\texture.h">
+      <Filter>NervaLib</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\component.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="NervaLib\model.h">
+      <Filter>NervaLib</Filter>
+    </ClInclude>
+    <ClInclude Include="NervaLib\model_resource.h">
+      <Filter>NervaLib</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\model_renderer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\model_object.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\camera.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\player_object.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="NervaLib\sprite.h">
+      <Filter>NervaLib</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="NervaLib\fullscreen_quad_ps.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="NervaLib\fullscreen_quad_vs.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="NervaLib\lambert_ps.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="NervaLib\lambert_vs.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NervaLib\fullscreen_quad.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="NervaLib\lambert.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+</Project>
