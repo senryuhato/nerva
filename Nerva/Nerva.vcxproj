@@ -172,6 +172,7 @@
     <ClCompile Include="Sources\model_renderer.cpp" />
     <ClCompile Include="Sources\framework.cpp" />
     <ClCompile Include="Sources\game_scene.cpp" />
+    <ClCompile Include="Sources\movement_camera.cpp" />
     <ClCompile Include="Sources\scene.cpp" />
     <ClCompile Include="Sources\main.cpp" />
   </ItemGroup>
@@ -204,6 +205,7 @@
     <ClInclude Include="Sources\player_object.h" />
     <ClInclude Include="Sources\scene.h" />
     <ClInclude Include="Sources\component.h" />
+    <ClInclude Include="Sources\movement_camera.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="NervaLib\fullscreen_quad.hlsli" />
