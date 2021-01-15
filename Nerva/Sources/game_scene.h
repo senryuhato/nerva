@@ -7,6 +7,8 @@
 #include "../NervaLib/model_resource.h"
 #include "../NervaLib/model.h"
 
+#include "../NervaLib/sprite.h"
+
 #include "scene.h"
 #include "camera.h"
 #include "model_renderer.h"
@@ -32,12 +34,16 @@ public:
 
 	//shader
 	std::shared_ptr<Shader> lambert_shader;
+	std::shared_ptr<Shader> sprite_shader;
 
 	//ƒvƒŒƒCƒ„[
 	std::shared_ptr<ModelResource> player_model_resource;
 	std::shared_ptr<Model> player_model;
 	std::shared_ptr<ModelRenderer> player_model_renderer;
 	std::unique_ptr<PlayerObject> player_object;
+
+	//sprite
+	std::unique_ptr<Sprite> sprite;
 
 public:
 	void initialize();

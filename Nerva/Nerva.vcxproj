@@ -173,6 +173,7 @@
     <ClCompile Include="Sources\model_renderer.cpp" />
     <ClCompile Include="Sources\framework.cpp" />
     <ClCompile Include="Sources\game_scene.cpp" />
+    <ClCompile Include="Sources\movement_camera.cpp" />
     <ClCompile Include="Sources\scene.cpp" />
     <ClCompile Include="Sources\main.cpp" />
   </ItemGroup>
@@ -206,6 +207,7 @@
     <ClInclude Include="Sources\player_object.h" />
     <ClInclude Include="Sources\scene.h" />
     <ClInclude Include="Sources\component.h" />
+    <ClInclude Include="Sources\movement_camera.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="NervaLib\fullscreen_quad.hlsli" />
@@ -279,6 +281,42 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Shaders\%(Filename).cso</ObjectFileOutput>
+      <AssemblerOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AssemblyCode</AssemblerOutput>
+      <AssemblerOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Shaders\%(Filename).cod</AssemblerOutputFile>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Shaders\%(Filename).cso</ObjectFileOutput>
+      <AssemblerOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AssemblyCode</AssemblerOutput>
+      <AssemblerOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Shaders\%(Filename).cod</AssemblerOutputFile>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Shaders\%(Filename).cso</ObjectFileOutput>
+      <AssemblerOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AssemblyCode</AssemblerOutput>
+      <AssemblerOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Shaders\%(Filename).cod</AssemblerOutputFile>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Shaders\%(Filename).cso</ObjectFileOutput>
+      <AssemblerOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AssemblyCode</AssemblerOutput>
+      <AssemblerOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Shaders\%(Filename).cod</AssemblerOutputFile>
+    </FxCompile>
+    <FxCompile Include="NervaLib\sprite_ps.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Shaders\%(Filename).cso</ObjectFileOutput>
+      <AssemblerOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AssemblyCode</AssemblerOutput>
+      <AssemblerOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Shaders\%(Filename).cod</AssemblerOutputFile>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Shaders\%(Filename).cso</ObjectFileOutput>
+      <AssemblerOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AssemblyCode</AssemblerOutput>
+      <AssemblerOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Shaders\%(Filename).cod</AssemblerOutputFile>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Shaders\%(Filename).cso</ObjectFileOutput>
+      <AssemblerOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AssemblyCode</AssemblerOutput>
+      <AssemblerOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Shaders\%(Filename).cod</AssemblerOutputFile>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Shaders\%(Filename).cso</ObjectFileOutput>
+      <AssemblerOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AssemblyCode</AssemblerOutput>
+      <AssemblerOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Shaders\%(Filename).cod</AssemblerOutputFile>
+    </FxCompile>
+    <FxCompile Include="NervaLib\sprite_vs.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Shaders\%(Filename).cso</ObjectFileOutput>
       <AssemblerOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AssemblyCode</AssemblerOutput>
       <AssemblerOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Shaders\%(Filename).cod</AssemblerOutputFile>
