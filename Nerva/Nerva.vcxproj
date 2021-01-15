@@ -157,7 +157,6 @@
     <ClCompile Include="External\ImGui\imgui_impl_win32.cpp" />
     <ClCompile Include="External\ImGui\imgui_ja_gryph_ranges.cpp" />
     <ClCompile Include="External\ImGui\imgui_widgets.cpp" />
-    <ClCompile Include="judge.cpp" />
     <ClCompile Include="NervaLib\frame_buffer.cpp" />
     <ClCompile Include="NervaLib\fullscreen_quad.cpp" />
     <ClCompile Include="NervaLib\key_input.cpp" />
@@ -169,6 +168,7 @@
     <ClCompile Include="NervaLib\texture.cpp" />
     <ClCompile Include="Sources\camera.cpp" />
     <ClCompile Include="Sources\component.cpp" />
+    <ClCompile Include="Sources\judge.cpp" />
     <ClCompile Include="Sources\model_object.cpp" />
     <ClCompile Include="Sources\model_renderer.cpp" />
     <ClCompile Include="Sources\framework.cpp" />
@@ -186,7 +186,6 @@
     <ClInclude Include="External\ImGui\imstb_rectpack.h" />
     <ClInclude Include="External\ImGui\imstb_textedit.h" />
     <ClInclude Include="External\ImGui\imstb_truetype.h" />
-    <ClInclude Include="judge.h" />
     <ClInclude Include="NervaLib\frame_buffer.h" />
     <ClInclude Include="NervaLib\fullscreen_quad.h" />
     <ClInclude Include="NervaLib\high_resolution_timer.h" />
@@ -199,6 +198,7 @@
     <ClInclude Include="NervaLib\sprite.h" />
     <ClInclude Include="NervaLib\texture.h" />
     <ClInclude Include="Sources\camera.h" />
+    <ClInclude Include="Sources\judge.h" />
     <ClInclude Include="Sources\model_renderer.h" />
     <ClInclude Include="Sources\model_object.h" />
     <ClInclude Include="Sources\framework.h" />
