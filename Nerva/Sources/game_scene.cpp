@@ -30,24 +30,26 @@ void GameScene::initialize()
 
 	//shader
 	lambert_shader = std::make_shared<LambertShader>(device);
+	sprite_shader = std::make_shared<SpriteShader>(device);
 
 	//プレイヤー
 	player_model_renderer = std::make_shared<ModelRenderer>(device);
 	player_model_renderer->set_shader(lambert_shader);
 
-	//player_model_resource = std::make_shared<ModelResource>(device, "Data/PLT/PLT_export_20190212.fbx");
-	player_model_resource = std::make_shared<ModelResource>(device, "Data/RPG-Character/RPG-Character.fbx");
+	player_model_resource = std::make_shared<ModelResource>(device, "Data/Player/player.fbx");
 
 	player_model = std::make_shared<Model>(player_model_resource);
 	player_model->play_animation(0, true);
 
 	player_object = std::make_unique<PlayerObject>();
 	player_object->initialize();
-	player_object->transform.scale = DirectX::XMFLOAT3(0.05f, 0.05f, 0.05f);
+	player_object->transform.scale = DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f);
 	player_object->set_model(player_model);
 	player_object->set_model_renderer(player_model_renderer);
 
-
+	//sprite
+	sprite = std::make_unique<Sprite>(device, L"Data/Sprite/earthmap.jpg");
+	sprite->set_shader(sprite_shader);
 
 	//マルチスレッド
 	now_loading = true;
@@ -89,6 +91,7 @@ void GameScene::render()
 
 	//描画
 	player_object->render(immediate_context, view_projection, light_direction);
+	sprite->render(immediate_context, { 0,0 }, { 1,1 }, 0, { 200,200 }, { 100,100 }, {100,100});
 
 	//描画終了
 	frame_buffer->deactivate(immediate_context);

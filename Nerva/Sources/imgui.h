@@ -13,3 +13,5 @@
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 extern ImWchar glyphRangesJapanese[];
 #endif
+
+//ImGui::Image((void*)shader_resource_view.Get(), ImVec2(1280, 720));
