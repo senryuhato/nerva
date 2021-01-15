@@ -168,6 +168,7 @@
     <ClCompile Include="NervaLib\texture.cpp" />
     <ClCompile Include="Sources\camera.cpp" />
     <ClCompile Include="Sources\component.cpp" />
+    <ClCompile Include="Sources\judge.cpp" />
     <ClCompile Include="Sources\model_object.cpp" />
     <ClCompile Include="Sources\model_renderer.cpp" />
     <ClCompile Include="Sources\framework.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="NervaLib\sprite.h" />
     <ClInclude Include="NervaLib\texture.h" />
     <ClInclude Include="Sources\camera.h" />
+    <ClInclude Include="Sources\judge.h" />
     <ClInclude Include="Sources\model_renderer.h" />
     <ClInclude Include="Sources\model_object.h" />
     <ClInclude Include="Sources\framework.h" />
