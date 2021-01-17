@@ -12,7 +12,7 @@ void clamp_(float& v, float min, float max)
 	}
 }
 
-float PointLineDist(DirectX::XMFLOAT3 p, DirectX::XMFLOAT3 sp, DirectX::XMFLOAT3 ep, DirectX::XMFLOAT3& h, float t)
+float PointLineDist(DirectX::XMFLOAT3 p, DirectX::XMFLOAT3 sp, DirectX::XMFLOAT3 ep, DirectX::XMFLOAT3& h, float& t)
 {// 引数を計算の速いVECTORへ入れる
 	using namespace DirectX;
 	XMVECTOR P, Sp, Ep;
@@ -46,7 +46,7 @@ float PointLineDist(DirectX::XMFLOAT3 p, DirectX::XMFLOAT3 sp, DirectX::XMFLOAT3
 	return d;
 }
 
-bool isActuteAngle(DirectX::XMFLOAT3 v1, DirectX::XMFLOAT3 v2)
+float angleRadians(const DirectX::XMFLOAT3 v1, const  DirectX::XMFLOAT3 v2)
 {
 	using namespace DirectX;
 
@@ -64,8 +64,16 @@ bool isActuteAngle(DirectX::XMFLOAT3 v1, DirectX::XMFLOAT3 v2)
 	// cosθからθを求める
 	float sita;
 	XMStoreFloat(&sita, XMVectorACos(Dot));
+
+	return XMConvertToRadians(sita);
+}
+
+bool isActuteAngle(DirectX::XMFLOAT3 v1, DirectX::XMFLOAT3 v2)
+{
+	using namespace DirectX;
+
 	// sitaが鋭角(0度より大きく90度より小さい)なら
-	if (XMConvertToRadians(sita) < 90 && XMConvertToRadians(sita) < 0)
+	if (angleRadians(v1, v2) < 90 && angleRadians(v1, v2) < 0)
 	{// true
 		return true;
 	}// 違うならfalse
@@ -73,7 +81,7 @@ bool isActuteAngle(DirectX::XMFLOAT3 v1, DirectX::XMFLOAT3 v2)
 
 }
 
-float PointSegmentDist(const DirectX::XMFLOAT3 p, const DirectX::XMFLOAT3 seg0, const DirectX::XMFLOAT3 seg1, DirectX::XMFLOAT3& h, float t)
+float PointSegmentDist(const DirectX::XMFLOAT3 p, const DirectX::XMFLOAT3 seg0, const DirectX::XMFLOAT3 seg1, DirectX::XMFLOAT3& h, float& t)
 {
 	// 垂線の長さ(d),直線と垂線の交点の座標(h)およびベクトル係数(t)を算出
 	float d = PointLineDist(p, seg0, seg1, h, t);
@@ -281,4 +289,31 @@ bool isHitCapsuleCapsule(const DirectX::XMFLOAT3 p1, const DirectX::XMFLOAT3 e1,
 	float t1, t2;
 	float d = SegmentSegmentDist(p1, e1, p2, e2, h1, h2, t1, t2);
 	return (d < r1 + r2);
+}
+
+bool isHitSphere(const DirectX::XMFLOAT3 p1, const float r1, const DirectX::XMFLOAT3 p2, const DirectX::XMFLOAT3 e2, const float r2)
+{
+	using namespace DirectX;
+	XMFLOAT3 h1, h2;
+	float t1, t2;
+	float d = PointSegmentDist(p1, p2, e2, h2, t2);
+	return (d < r1 + r2);
+}
+
+//TODO:2021 これを自機の移動のところに入れれば行けると思います
+void playerControl(DirectX::XMFLOAT3 front,DirectX::XMFLOAT3 right)
+{// カメラの正面と右方向が分かればいい
+	using namespace DirectX;
+	XMVECTOR Front = XMVector3Normalize(XMLoadFloat3(&front));
+	XMVECTOR Right = XMVector3Normalize(XMLoadFloat3(&right));
+	
+	// 入力されたスピードのZ方向を X
+	XMFLOAT3 pos, speed;
+	XMVECTOR Pos = XMLoadFloat3(&pos);
+	XMVECTOR sX = XMLoadFloat(&speed.x);
+	XMVECTOR sZ = XMLoadFloat(&speed.z);
+
+	XMVectorAdd(Pos, XMVectorMultiply(Front, sZ));
+	XMVectorAdd(Pos, XMVectorMultiply(Right, sX));
+
 }
