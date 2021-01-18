@@ -99,6 +99,9 @@
     <ClCompile Include="Sources\judge.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="NervaLib\static_mesh.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\ImGui\imconfig.h">
@@ -191,6 +194,9 @@
     <ClInclude Include="Sources\judge.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="NervaLib\static_mesh.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="NervaLib\fullscreen_quad_ps.hlsl">
@@ -211,6 +217,8 @@
     <FxCompile Include="NervaLib\sprite_vs.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="NervaLib\static_mesh_ps.hlsl" />
+    <FxCompile Include="NervaLib\static_mesh_vs.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="NervaLib\fullscreen_quad.hlsli">
@@ -219,5 +227,6 @@
     <None Include="NervaLib\lambert.hlsli">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="NervaLib\static_mesh.hlsli" />
   </ItemGroup>
 </Project>

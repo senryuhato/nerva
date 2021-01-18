@@ -36,7 +36,7 @@ void GameScene::initialize()
 	player_model_renderer = std::make_shared<ModelRenderer>(device);
 	player_model_renderer->set_shader(lambert_shader);
 
-	player_model_resource = std::make_shared<ModelResource>(device, "Data/Player/test.fbx");
+	player_model_resource = std::make_shared<ModelResource>(device, "Data/Player/player.fbx");
 
 	player_model = std::make_shared<Model>(player_model_resource);
 	player_model->play_animation(0, true);
