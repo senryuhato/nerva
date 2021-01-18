@@ -99,10 +99,14 @@
     <ClCompile Include="Sources\judge.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Sources\Sound.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Sources\player_object.cpp">
+=======
+    <ClCompile Include="NervaLib\static_mesh.cpp">
+>>>>>>> origin/haruto
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -197,7 +201,11 @@
     <ClInclude Include="Sources\judge.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Sources\Sound.h">
+=======
+    <ClInclude Include="NervaLib\static_mesh.h">
+>>>>>>> origin/haruto
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -220,6 +228,8 @@
     <FxCompile Include="NervaLib\sprite_vs.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="NervaLib\static_mesh_ps.hlsl" />
+    <FxCompile Include="NervaLib\static_mesh_vs.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="NervaLib\fullscreen_quad.hlsli">
@@ -228,5 +238,6 @@
     <None Include="NervaLib\lambert.hlsli">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="NervaLib\static_mesh.hlsli" />
   </ItemGroup>
 </Project>

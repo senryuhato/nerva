@@ -347,6 +347,10 @@ void ModelResource::build_mesh(ID3D11Device* device, FbxNode* fbx_node, FbxMesh*
 	vertices.resize(fbx_polygon_count * 3);
 	indices.resize(fbx_polygon_count * 3);
 
+	FbxAMatrix globalTransform = fbx_mesh->GetNode()->EvaluateGlobalTransform(0);
+	DirectX::XMFLOAT4X4 global_transform = {};
+	global_transform = FbxAMatrixToFloat4x4(globalTransform);
+
 	int vertex_count = 0;
 	const FbxVector4* fbx_control_points = fbx_mesh->GetControlPoints();
 	for (int fbx_polygon_index = 0; fbx_polygon_index < fbx_polygon_count; ++fbx_polygon_index)
@@ -361,6 +365,9 @@ void ModelResource::build_mesh(ID3D11Device* device, FbxNode* fbx_node, FbxMesh*
 		Subset& subset = mesh.subsets.at(fbx_material_index);
 		const int index_offset = subset.start_index + subset.index_count;
 
+		//保存用ポリゴンデータ
+		Face f;
+
 		for (int fbx_vertex_index = 0; fbx_vertex_index < 3; ++fbx_vertex_index)
 		{
 			Vertex vertex;
@@ -369,6 +376,12 @@ void ModelResource::build_mesh(ID3D11Device* device, FbxNode* fbx_node, FbxMesh*
 			// Position
 			{
 				vertex.position = FbxDouble4ToFloat3(fbx_control_points[fbx_control_point_index]);
+			
+				DirectX::XMVECTOR local_position = DirectX::XMLoadFloat3(&vertex.position);
+				DirectX::XMVECTOR world_transform = DirectX::XMVector3TransformCoord(local_position, DirectX::XMLoadFloat4x4(&global_transform));
+
+				//面ごとの頂点データ
+				f.position[fbx_vertex_index] = vertex.position;
 			}
 
 			// Weight
@@ -417,6 +430,9 @@ void ModelResource::build_mesh(ID3D11Device* device, FbxNode* fbx_node, FbxMesh*
 		}
 
 		subset.index_count += 3;
+
+		//面データ保存
+		faces.push_back(f);
 	}
 
 	// 頂点バッファ
@@ -659,3 +675,71 @@ int ModelResource::find_material_index(FbxScene* fbxScene, const FbxSurfaceMater
 	}
 	return -1;
 }
+
+void  ModelResource::ray_pick(
+	const DirectX::XMFLOAT3& start_position,
+	const DirectX::XMFLOAT3& end_position,
+	DirectX::XMFLOAT3* out_position,
+	DirectX::XMFLOAT3* out_normal,
+	float* out_length)
+{
+	bool ret = false;
+	DirectX::XMVECTOR start = DirectX::XMLoadFloat3(&start_position);
+	DirectX::XMVECTOR end = DirectX::XMLoadFloat3(&end_position);
+	DirectX::XMVECTOR vec = DirectX::XMVectorSubtract(end, start);
+	DirectX::XMVECTOR length = DirectX::XMVector3Length(vec);
+	DirectX::XMVECTOR dir = DirectX::XMVector3Normalize(vec);
+	float neart;
+	DirectX::XMStoreFloat(&neart, length);
+
+	DirectX::XMVECTOR position, normal;
+	for (const auto& it : faces)
+	{
+		//面頂点取得
+		DirectX::XMVECTOR x = DirectX::XMLoadFloat3(&it.position[0]);
+		DirectX::XMVECTOR y = DirectX::XMLoadFloat3(&it.position[1]);
+		DirectX::XMVECTOR z = DirectX::XMLoadFloat3(&it.position[2]);
+		//3辺算出
+		DirectX::XMVECTOR xy = DirectX::XMVectorSubtract(y, x);
+		DirectX::XMVECTOR yz = DirectX::XMVectorSubtract(z, y);
+		DirectX::XMVECTOR zx = DirectX::XMVectorSubtract(x, z);
+		//外積による法線算出
+
+		DirectX::XMVECTOR n = DirectX::XMVector3Cross(DirectX::XMVector3Normalize(xy), DirectX::XMVector3Normalize(yz));
+		//内積の結果がプラスなら裏向き
+		float dot;
+		DirectX::XMStoreFloat(&dot, DirectX::XMVector3Dot(n, dir));
+		if (dot >= 0) continue;
+		//交点算出
+		DirectX::XMVECTOR v0 = DirectX::XMVectorSubtract(x, start);
+		DirectX::XMVECTOR a = DirectX::XMVector3Dot(n, v0);
+		DirectX::XMVECTOR t = DirectX::XMVectorDivide(DirectX::XMVector3Dot(n, v0), DirectX::XMLoadFloat(&dot));
+		float ft;
+		DirectX::XMStoreFloat(&ft, t);
+		if (ft < .0f || ft > neart) continue;
+		DirectX::XMVECTOR cp = DirectX::XMVectorAdd(DirectX::XMVectorMultiply(dir, DirectX::XMVectorSet(ft, ft, ft, 0.0f)), start);
+		//内点判定
+		float ab;
+		DirectX::XMStoreFloat(&ab, DirectX::XMVector3Dot(DirectX::XMVector3Cross(DirectX::XMVectorSubtract(x, cp), xy), n));
+		if (ab < 0) continue;
+		float bc;
+		DirectX::XMStoreFloat(&bc, DirectX::XMVector3Dot(DirectX::XMVector3Cross(DirectX::XMVectorSubtract(y, cp), yz), n));
+		if (bc < 0) continue;
+		float ca;
+		DirectX::XMStoreFloat(&ca, DirectX::XMVector3Dot(DirectX::XMVector3Cross(DirectX::XMVectorSubtract(z, cp), zx), n));
+		if (ca < 0) continue;
+		//情報保存
+		position = cp;
+		normal = n;
+		ret = true;
+		out_length = &ft;
+	}
+	if (ret)
+	{
+		DirectX::XMStoreFloat3(out_position, position);
+		DirectX::XMStoreFloat3(out_normal, normal);
+	}
+	//最も近いヒット位置までの距離
+	*out_length = neart;
+}
+

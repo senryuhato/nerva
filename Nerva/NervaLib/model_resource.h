@@ -73,11 +73,25 @@ public:
 		std::vector<Keyframe>		keyframes;
 	};
 
+	struct Face
+	{
+		DirectX::XMFLOAT3 position[3];
+	};
+
+	std::vector<Face> faces;
+
 	void add_animation(const char* fbx_filename);
 
 	const std::vector<Mesh>& get_meshes() const { return meshes; }
 	const std::vector<Node>& get_nodes() const { return nodes; }
 	const std::vector<Animation>& get_animations() const { return animations; }
+
+	void  ray_pick(
+		const DirectX::XMFLOAT3& start_position,
+		const DirectX::XMFLOAT3& end_position,
+		DirectX::XMFLOAT3* out_position,
+		DirectX::XMFLOAT3* out_normal,
+		float* out_length);
 
 private:
 	// ノードデータを構築
