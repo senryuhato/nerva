@@ -47,4 +47,6 @@ public:
 	void set_up(const DirectX::XMFLOAT3& up) { this->up = up; }
 	const DirectX::XMFLOAT4X4& get_view() { return view; }
 	const DirectX::XMFLOAT4X4& get_projection() { return projection; }
+	const DirectX::XMFLOAT3& get_front() { return front; }
+	const DirectX::XMFLOAT3& get_right() { return right; }
 };
