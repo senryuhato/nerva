@@ -66,6 +66,7 @@ void GameScene::update()
 	player_model->update_animation(1.0f / 60.0f);
 
 	//ƒvƒŒƒCƒ„[
+	player_object->setCameraFrontRight(camera->get_front(), camera->get_right());
 	player_object->update();
 }
 

@@ -1,46 +1,77 @@
 #include "../NervaLib/key_input.h"
+#include "judge.h"
 #include "player_object.h"
 
 void PlayerObject::update()
 {
 	move();
+	direction();
 
 	transform.update();
 	transform.calculate_world_transform_quaternion();
 }
 
+// setFrontRightされること前提になっている
 void PlayerObject::move()
 {
-	if (KeyInput::key_state() && KEY_UP)
+	DirectX::XMFLOAT3 s = {2.0f,2.0f,2.0f};
+	DirectX::XMVECTOR sX = DirectX::XMLoadFloat3(&s);
+	DirectX::XMVECTOR sZ = DirectX::XMLoadFloat3(&s);
+	DirectX::XMVECTOR vX = DirectX::XMLoadFloat3(&velocity);
+	DirectX::XMVECTOR vZ = DirectX::XMLoadFloat3(&velocity);
+	if (KeyInput::key_state() & KEY_UP)
 	{
-		velocity.z += 0.1;
+		vZ = DirectX::XMVectorAdd(vZ, sZ);
 	}
 
-	if (KeyInput::key_state() && KEY_DOWN)
+	if (KeyInput::key_state() & KEY_DOWN)
 	{
-		velocity.z -= 0.1;
+		vZ = DirectX::XMVectorSubtract(vZ, sZ);
 	}
 
-	if (KeyInput::key_state() && KEY_RIGHT)
+	if (KeyInput::key_state() & KEY_RIGHT)
 	{
-		velocity.x += 0.1;
+		vX = DirectX::XMVectorAdd(vX, sX);
 	}
 
-	if (KeyInput::key_state() && KEY_LEFT)
+	if (KeyInput::key_state() & KEY_LEFT)
 	{
-		velocity.x -= 0.1;
+		vX = DirectX::XMVectorSubtract(vX, sX);
 	}
 
-	// DirectX::XMVECTOR Front = DirectX::XMVector3Normalize(DirectX::XMLoadFloat3(&front));
-	// DirectX::XMVECTOR Right = DirectX::XMVector3Normalize(DirectX::XMLoadFloat3(&right));
+
+	DirectX::XMVECTOR Front = DirectX::XMVector3Normalize(DirectX::XMLoadFloat3(&Cfront));
+	DirectX::XMVECTOR Right = DirectX::XMVector3Normalize(DirectX::XMLoadFloat3(&Cright));
 
 	// 入力されたスピードのZ方向を X
-	DirectX::XMFLOAT3 pos, speed;
-	DirectX::XMVECTOR Pos = DirectX::XMLoadFloat3(&pos);
-	DirectX::XMVECTOR sX =  DirectX::XMLoadFloat(&speed.x);
-	DirectX::XMVECTOR sZ =  DirectX::XMLoadFloat(&speed.z);
+	DirectX::XMVECTOR Pos = DirectX::XMLoadFloat3(&transform.position);
 
-	// DirectX::XMVectorAdd(Pos, DirectX::XMVectorMultiply(Front, sZ));
-	// DirectX::XMVectorAdd(Pos, DirectX::XMVectorMultiply(Right, sX));
+	Pos = DirectX::XMVectorAdd(Pos, DirectX::XMVectorMultiply(Front, vZ));
+	Pos = DirectX::XMVectorAdd(Pos, DirectX::XMVectorMultiply(Right, vX));
 
+	DirectX::XMStoreFloat3(&velocity, DirectX::XMVectorAdd(vX, vZ));
+	velocity.x /= 10, velocity.z /= 10;
+	// DirectX::XMStoreFloat(&velocity.x, vX);
+
+	DirectX::XMStoreFloat3(&transform.position, Pos);
+	transform.position.y = 0;
+}
+
+void PlayerObject::setCameraFrontRight(const DirectX::XMFLOAT3 f, const DirectX::XMFLOAT3 r)
+{
+	Cfront = f;
+	Cright = r;
+}
+
+void PlayerObject::direction()
+{
+	DirectX::XMVECTOR f = DirectX::XMLoadFloat3(&Cfront);
+	DirectX::XMVECTOR r = DirectX::XMLoadFloat3(&Cright);
+
+	DirectX::XMFLOAT3 v1;
+	DirectX::XMStoreFloat3(&v1, DirectX::XMVector3Normalize(DirectX::XMVectorAdd(f, r)));
+
+	transform.angle.y = angleRadians(velocity, v1);
+	// こっちでできるが velocity が0の時,姿が消える
+	// transform.rotation.y = angleRadians(velocity, v1);
 }
