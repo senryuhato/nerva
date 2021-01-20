@@ -49,4 +49,5 @@ public:
 	const DirectX::XMFLOAT4X4& get_projection() { return projection; }
 	const DirectX::XMFLOAT3& get_front() { return front; }
 	const DirectX::XMFLOAT3& get_right() { return right; }
+	const DirectX::XMFLOAT3& get_rotate() { return rotate; }
 };

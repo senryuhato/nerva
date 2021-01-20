@@ -36,7 +36,7 @@ void GameScene::initialize()
 	player_model_renderer = std::make_shared<ModelRenderer>(device);
 	player_model_renderer->set_shader(lambert_shader);
 
-	player_model_resource = std::make_shared<ModelResource>(device, "Data/Player/player.fbx");
+	player_model_resource = std::make_shared<ModelResource>(device, "Data/Player/test_a.fbx");
 
 	player_model = std::make_shared<Model>(player_model_resource);
 	player_model->play_animation(0, true);
@@ -63,10 +63,16 @@ void GameScene::update()
 	//カメラ
 	camera->update();
 
-	player_model->update_animation(1.0f / 60.0f);
+	float time = 60.0f;
+	if (player_model->current_animation == 0)time = 60.f;
+	if (player_model->current_animation == 1 || player_model->current_animation == 2 || player_model->current_animation == 3)time = 120.0f;
+	if (player_model->current_animation == 5)time = 180.0f;
+
+	player_model->update_animation(1.0f / time);
 
 	//プレイヤー
 	player_object->setCameraFrontRight(camera->get_front(), camera->get_right());
+	player_object->setCameraAngle(camera->get_rotate());
 	player_object->update();
 }
 

@@ -36,7 +36,7 @@ public:
 	std::vector<Node>& get_nodes() { return nodes; }
 	const ModelResource* get_resource() const { return resource.get(); }
 
-private:
+// private:
 	std::shared_ptr<ModelResource>	resource;
 	std::vector<Node>				nodes;
 	int								current_animation = -1;

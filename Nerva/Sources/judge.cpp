@@ -46,7 +46,7 @@ float PointLineDist(DirectX::XMFLOAT3 p, DirectX::XMFLOAT3 sp, DirectX::XMFLOAT3
 	return d;
 }
 
-float angleRadians(const DirectX::XMFLOAT3 v1, const  DirectX::XMFLOAT3 v2)
+float dotAngleRadians(const DirectX::XMFLOAT3 v1, const  DirectX::XMFLOAT3 v2)
 {
 	using namespace DirectX;
 
@@ -64,16 +64,35 @@ float angleRadians(const DirectX::XMFLOAT3 v1, const  DirectX::XMFLOAT3 v2)
 	// cosÉ∆Ç©ÇÁÉ∆ÇãÅÇﬂÇÈ
 	float sita;
 	XMStoreFloat(&sita, XMVectorACos(Dot));
+	
+	return sita;
+}
+
+float CrossAngleRadians(const DirectX::XMFLOAT3 v1, const DirectX::XMFLOAT3 v2)
+{
+	using namespace DirectX;
+	XMVECTOR V1 = XMVector3Normalize(XMLoadFloat3(&v1));
+	XMVECTOR V2 = XMVector3Normalize(XMLoadFloat3(&v2));
+
+	XMVECTOR L1 = XMVector3Length(V1);
+	XMVECTOR L2 = XMVector3Length(V2);
+	
+	// cross=length(a)*length(b)*sinÉ∆
+	XMVECTOR sin = XMVectorDivide(XMVector3Cross(V1, V2), XMVectorMultiply(L1, L2));
+	
+	float sita;
+	XMStoreFloat(&sita, XMVectorSin(sin));
 
 	return XMConvertToRadians(sita);
 }
+
 
 bool isActuteAngle(DirectX::XMFLOAT3 v1, DirectX::XMFLOAT3 v2)
 {
 	using namespace DirectX;
 
 	// sitaÇ™âsäp(0ìxÇÊÇËëÂÇ´Ç≠90ìxÇÊÇËè¨Ç≥Ç¢)Ç»ÇÁ
-	if (angleRadians(v1, v2) < 90 && angleRadians(v1, v2) < 0)
+	if (dotAngleRadians(v1, v2) < 90 && dotAngleRadians(v1, v2) < 0)
 	{// true
 		return true;
 	}// à·Ç§Ç»ÇÁfalse
