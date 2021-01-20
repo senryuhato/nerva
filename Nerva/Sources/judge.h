@@ -10,7 +10,11 @@ float PointLineDist(const DirectX::XMFLOAT3 p, const  DirectX::XMFLOAT3 sp, cons
 
 // 2つの直線の角度のθの値
 // v1:直線(ベクトル) v2:直線(ベクトル)
-float angleRadians(const DirectX::XMFLOAT3 v1, const  DirectX::XMFLOAT3 v2);
+float dotAngleRadians(const DirectX::XMFLOAT3 v1, const  DirectX::XMFLOAT3 v2);
+
+// 2つの直線の角度のθの値
+// v1:直線(ベクトル) v2:直線(ベクトル)
+float CrossAngleRadians(const DirectX::XMFLOAT3 v1, const DirectX::XMFLOAT3 v2);
 
 // 2つの直線が鋭角であるかどうか
 // v1:直線(ベクトル) v2:直線(ベクトル)
