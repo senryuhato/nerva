@@ -4,6 +4,7 @@
 #include "framework.h"
 
 #include "game_scene.h"
+#include "debug_scene.h"
 
 void SceneManager::initialize()
 {
@@ -14,7 +15,14 @@ void SceneManager::initialize()
 		scenes.insert(std::make_pair(scene_name, std::make_shared<GameScene>()));
 	}
 
-	current_scene = "GAME";
+	//DEBUG
+	{
+		scene_names.push_back("DEBUG");
+		std::string scene_name = scene_names.rbegin()->c_str();
+		scenes.insert(std::make_pair(scene_name, std::make_shared<DebugScene>()));
+	}
+
+	current_scene = "DEBUG";
 
 	scenes.at(current_scene)->initialize();
 }
