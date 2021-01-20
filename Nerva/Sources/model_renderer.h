@@ -70,5 +70,5 @@ public:
 	void draw(ID3D11DeviceContext* context, const Model* model);
 	void end(ID3D11DeviceContext* context);
 
-	ModelRenderer(ID3D11Device* device);
+	ModelRenderer(ID3D11Device* device, bool cull_mode = false);
 };

@@ -20,7 +20,7 @@ void fbxamatrix_to_xmfloat4x4(const FbxAMatrix& fbxamatrix, DirectX::XMFLOAT4X4&
 	}
 }
 
-StaticMesh::StaticMesh(ID3D11Device* device, const char* fbxFilename)
+StaticMesh::StaticMesh(ID3D11Device* device, const char* fbxFilename, bool cull_mode)
 {
 	// Create the FBX SDK manager
 	FbxManager* manager = FbxManager::Create();
@@ -250,9 +250,11 @@ StaticMesh::StaticMesh(ID3D11Device* device, const char* fbxFilename)
 
 	static_mesh_shader = std::make_unique<StaticmeshShader>(device);
 
-	rasterizer_state = std::make_unique<RasterizerState>(device, D3D11_FILL_SOLID, D3D11_CULL_BACK, false);
+	rasterizer_state = std::make_unique<RasterizerState>(device, D3D11_FILL_SOLID, D3D11_CULL_BACK, cull_mode);
 	depth_stencil_state = std::make_unique<DepthStencilState>(device, true, D3D11_DEPTH_WRITE_MASK_ALL, D3D11_COMPARISON_LESS_EQUAL);
 	sampler_state = std::make_unique<SamplerState>(device, D3D11_FILTER_MIN_MAG_MIP_LINEAR);
+
+	create_constant_buffer(device, constant_buffer.GetAddressOf(), sizeof(ConstantBuffer));
 }
 
 void StaticMesh::Mesh::create_buffers(ID3D11Device* device, Vertex* vertices, int numVertices, u_int* indices, int numIndices)
@@ -295,8 +297,8 @@ void StaticMesh::Mesh::create_buffers(ID3D11Device* device, Vertex* vertices, in
 	}
 }
 
-void StaticMesh::render(ID3D11DeviceContext* immediate_context, 
-	const DirectX::XMFLOAT4X4& world_view_projection, const DirectX::XMFLOAT4X4& world, 
+void StaticMesh::render(ID3D11DeviceContext* immediate_context,
+	const DirectX::XMFLOAT4X4& world_view_projection, const DirectX::XMFLOAT4X4& world,
 	const DirectX::XMFLOAT4& light_direction, const DirectX::XMFLOAT4& material_color)
 {
 	static_mesh_shader->activate(immediate_context);
@@ -343,7 +345,8 @@ int StaticMesh::ray_pick(
 	const DirectX::XMFLOAT3& end_position,
 	DirectX::XMFLOAT3* out_position,
 	DirectX::XMFLOAT3* out_normal,
-	float* out_length)
+	float* out_length,
+	float range)
 {
 	int ret = -1;
 	DirectX::XMVECTOR start = DirectX::XMLoadFloat3(&start_position);
@@ -371,14 +374,15 @@ int StaticMesh::ray_pick(
 		//内積の結果がプラスなら裏向き
 		float dot;
 		DirectX::XMStoreFloat(&dot, DirectX::XMVector3Dot(n, dir));
-		if (dot >= 0) continue;
+		if (dot >= range) continue;
 		//交点算出
 		DirectX::XMVECTOR v0 = DirectX::XMVectorSubtract(x, start);
-		DirectX::XMVECTOR a = DirectX::XMVector3Dot(n, v0);
+		//DirectX::XMVECTOR a = DirectX::XMVector3Dot(n, v0);
 		DirectX::XMVECTOR t = DirectX::XMVectorDivide(DirectX::XMVector3Dot(n, v0), DirectX::XMLoadFloat(&dot));
 		float ft;
 		DirectX::XMStoreFloat(&ft, t);
-		if (ft < .0f || ft > neart) continue;
+		if (ft < .0f) continue;
+		if (ft > neart) continue;
 		DirectX::XMVECTOR cp = DirectX::XMVectorAdd(DirectX::XMVectorMultiply(dir, DirectX::XMVectorSet(ft, ft, ft, 0.0f)), start);
 		//内点判定
 		float ab;

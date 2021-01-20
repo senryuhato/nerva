@@ -84,7 +84,7 @@ private:
 	std::unique_ptr<SamplerState> sampler_state;
 
 public:
-	class StaticMesh(ID3D11Device* device, const char* fbxFilename);
+	StaticMesh(ID3D11Device* device, const char* fbxFilename, bool cull_mode = false);
 	virtual ~StaticMesh() {}
 
 	void render(ID3D11DeviceContext* immediate_context,
@@ -110,6 +110,7 @@ public:
 		const DirectX::XMFLOAT3& end_position,
 		DirectX::XMFLOAT3* out_position,
 		DirectX::XMFLOAT3* out_normal,
-		float* out_length
+		float* out_length,
+		float range = 0.0f
 	);
 };
