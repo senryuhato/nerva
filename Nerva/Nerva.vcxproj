@@ -167,16 +167,22 @@
     <ClCompile Include="NervaLib\sprite.cpp" />
     <ClCompile Include="NervaLib\static_mesh.cpp" />
     <ClCompile Include="NervaLib\texture.cpp" />
+    <ClCompile Include="Sources\boss_object.cpp" />
     <ClCompile Include="Sources\camera.cpp" />
+    <ClCompile Include="Sources\collision.cpp" />
     <ClCompile Include="Sources\component.cpp" />
+    <ClCompile Include="Sources\debug_scene.cpp" />
     <ClCompile Include="Sources\judge.cpp" />
     <ClCompile Include="Sources\model_object.cpp" />
     <ClCompile Include="Sources\model_renderer.cpp" />
     <ClCompile Include="Sources\framework.cpp" />
     <ClCompile Include="Sources\game_scene.cpp" />
     <ClCompile Include="Sources\movement_camera.cpp" />
+    <ClCompile Include="Sources\player_object.cpp" />
     <ClCompile Include="Sources\scene.cpp" />
     <ClCompile Include="Sources\main.cpp" />
+    <ClCompile Include="Sources\Sound.cpp" />
+    <ClCompile Include="Sources\static_object.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\ImGui\imconfig.h" />
@@ -199,7 +205,10 @@
     <ClInclude Include="NervaLib\sprite.h" />
     <ClInclude Include="NervaLib\static_mesh.h" />
     <ClInclude Include="NervaLib\texture.h" />
+    <ClInclude Include="Sources\boss_object.h" />
     <ClInclude Include="Sources\camera.h" />
+    <ClInclude Include="Sources\collision.h" />
+    <ClInclude Include="Sources\debug_scene.h" />
     <ClInclude Include="Sources\judge.h" />
     <ClInclude Include="Sources\model_renderer.h" />
     <ClInclude Include="Sources\model_object.h" />
@@ -210,6 +219,8 @@
     <ClInclude Include="Sources\scene.h" />
     <ClInclude Include="Sources\component.h" />
     <ClInclude Include="Sources\movement_camera.h" />
+    <ClInclude Include="Sources\Sound.h" />
+    <ClInclude Include="Sources\static_object.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="NervaLib\fullscreen_quad.hlsli" />

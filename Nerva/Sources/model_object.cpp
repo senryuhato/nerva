@@ -6,8 +6,8 @@ void ModelObject::initialize()
 }
 void ModelObject::update()
 {
+	transform.rotation = transform.euler(transform.angle);
 	transform.update();
-	transform.calculate_world_transform_quaternion();
 }
 void ModelObject::render(ID3D11DeviceContext* immediate_context, const DirectX::XMFLOAT4X4& view_projection, const DirectX::XMFLOAT4& light_direction)
 {

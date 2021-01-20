@@ -1,7 +1,7 @@
 #include "model_renderer.h"
 #include "../NervaLib/texture.h"
 
-ModelRenderer::ModelRenderer(ID3D11Device* device)
+ModelRenderer::ModelRenderer(ID3D11Device* device, bool cull_mode)
 {
 	// 定数バッファ
 	{
@@ -14,7 +14,7 @@ ModelRenderer::ModelRenderer(ID3D11Device* device)
 	}
 	make_dummy_texture(device, dummy_shader_resource_view.GetAddressOf());
 
-	rasterizer_state = std::make_unique<RasterizerState>(device, D3D11_FILL_SOLID, D3D11_CULL_BACK, false);
+	rasterizer_state = std::make_unique<RasterizerState>(device, D3D11_FILL_SOLID, D3D11_CULL_BACK, cull_mode);
 	depth_stencil_state = std::make_unique<DepthStencilState>(device, true, D3D11_DEPTH_WRITE_MASK_ALL, D3D11_COMPARISON_LESS_EQUAL);
 	sampler_state = std::make_unique<SamplerState>(device, D3D11_FILTER_MIN_MAG_MIP_LINEAR);
 }

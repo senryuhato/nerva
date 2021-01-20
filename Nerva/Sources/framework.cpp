@@ -14,6 +14,8 @@ bool Framework::initialize(bool is_fullscreen)
 {
 	HRESULT hr = S_OK;
 
+	soundManager = std::make_unique<SoundManager>(Framework::instance().hwnd);
+
 	// 画面のサイズを取得する。
 	RECT rc;
 	GetClientRect(hwnd, &rc);
@@ -218,6 +220,16 @@ bool Framework::initialize(bool is_fullscreen)
 
 	immediate_context->OMSetRenderTargets(1, onscreen_render_target_view.GetAddressOf(), onscreen_depth_stencil_view.Get());
 	immediate_context->OMSetDepthStencilState(default_depth_stencil_state.Get(), 1);
+
+	// soundSE[0] = soundManager->CreateSoundSource("Data/Sound/SE/filename.wav");
+
+	// soundBGM[0] = soundManager->CreateSoundSource("Data/Sound/BGM/darkmatter.wav");
+	// soundBGM[0] = soundManager->CreateSoundSource("Data/Sound/BGM/bgm.wav");
+	// soundBGM[0]->SetVolume(0.55);
+	// true:ループ
+	// soundBGM[0]->Play(true);
+
+	// soundBGM[0]->Stop();
 
 	SceneManager::instance().initialize();
 

@@ -2,8 +2,10 @@
 
 #include <d3d11.h>
 #include <wrl.h>
+#include <memory>
 
 #include "../NervaLib/high_resolution_timer.h"
+#include "Sound.h"
 
 class Framework
 {
@@ -27,7 +29,9 @@ public:
 	HWND get_hwnd() const { return hwnd; }
 	float get_elapsed_time() const { return elapsed_time; }
 
-
+	std::unique_ptr<SoundManager> soundManager;
+	std::unique_ptr<SoundSource> soundSE[10];
+	std::unique_ptr<SoundSource> soundBGM[2];
 
 private:
 	const HWND hwnd;
