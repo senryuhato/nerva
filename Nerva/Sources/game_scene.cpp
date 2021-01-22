@@ -98,6 +98,12 @@ void GameScene::initialize()
 	text = std::make_unique<Sprite>(device, L"Data/Sprite/text.png");
 	text->set_shader(sprite_shader);
 
+	nowString = std::make_unique<Sprite>(device, L"Data/UI/nowloading.png");
+	nowString->set_shader(sprite_shader);
+
+	nowWheel = std::make_unique<Sprite>(device, L"Data/UI/now.png");
+	nowWheel->set_shader(sprite_shader);
+
 	//マルチスレッド
 	now_loading = true;
 	loading_thread = std::make_unique<std::thread>(loading_thread_function, this, device);
@@ -105,7 +111,8 @@ void GameScene::initialize()
 
 void GameScene::update()
 {
-	if (is_now_loading()) return;
+	if (is_now_loading())return;
+	
 
 	//カメラ
 	// camera->set_rotate(DirectX::XMFLOAT3(player_object->rotate.x, player_object->rotate.y, player_object->rotate.z));
@@ -149,8 +156,14 @@ void GameScene::render()
 	//state
 	blend_state->activate(immediate_context);
 
-	if (is_now_loading()) return;
-
+	if (is_now_loading())
+	{
+		static float angle = 0.0f;
+		nowString->render(immediate_context, { 0,300 }, { 0.5,0.5 }, angle, { 1920,1080 }, { 0,0 }, { 1920,1080 });
+		nowWheel->render(immediate_context, { 100,-200 }, { 0.5,0.5 }, 0, { 1920,1080 }, { 0,0 }, { 1920,1080 });
+		angle += 0.1;
+		return;
+	}
 	DirectX::XMFLOAT4X4 view_projection;
 
 	DirectX::XMStoreFloat4x4(&view_projection,

@@ -75,6 +75,9 @@ public:
 
 	std::unique_ptr<Sprite> text;
 
+	std::unique_ptr<Sprite> nowString;
+	std::unique_ptr<Sprite> nowWheel;
+
 	//hit
 	std::unique_ptr<Hit> hit;
 
