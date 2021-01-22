@@ -22,7 +22,7 @@ void SceneManager::initialize()
 		scenes.insert(std::make_pair(scene_name, std::make_shared<DebugScene>()));
 	}
 
-	current_scene = "DEBUG";
+	current_scene = "GAME";
 
 	scenes.at(current_scene)->initialize();
 }

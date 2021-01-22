@@ -13,8 +13,8 @@ void TPCamera::update()
 	old_cursor = current_cursor;
 	current_cursor = DirectX::XMFLOAT2(static_cast<float>(cursor.x), static_cast<float>(cursor.y));
 
-	float move_x = (current_cursor.x - old_cursor.x) * 0.02f;
-	float move_y = (current_cursor.y - old_cursor.y) * 0.02f;
+	float move_x = (current_cursor.x - old_cursor.x) * 0.005f;
+	float move_y = (current_cursor.y - old_cursor.y) * 0.005f;
 
 	// if (KeyInput::key_state() & KEY_ALT)
 	{

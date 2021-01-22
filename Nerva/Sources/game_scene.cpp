@@ -10,6 +10,49 @@ void GameScene::loading_thread_function(GameScene* scene, ID3D11Device* device)
 {
 	std::lock_guard<std::mutex> lock(scene->loading_mutex);
 
+	{
+		//shader
+		scene->lambert_shader = std::make_shared<LambertShader>(device);
+		scene->sprite_shader = std::make_shared<SpriteShader>(device);
+
+		//プレイヤー
+		scene->player_model_renderer = std::make_shared<ModelRenderer>(device);
+		scene->player_model_renderer->set_shader(scene->lambert_shader);
+
+		scene->player_model_resource = std::make_shared<ModelResource>(device, "Data/Player/001.fbx");
+
+		scene->player_model = std::make_shared<Model>(scene->player_model_resource);
+		scene->player_model->play_animation(0, true);
+
+		scene->player_object = std::make_shared<PlayerObject>();
+		scene->player_object->initialize();
+		scene->player_object->transform.scale = DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f);
+		scene->player_object->set_model(scene->player_model);
+		scene->player_object->set_model_renderer(scene->player_model_renderer);
+
+		//boss
+		scene->boss_model_renderer = std::make_shared<ModelRenderer>(device, false);
+		scene->boss_model_renderer->set_shader(scene->lambert_shader);
+		scene->boss_model_resource = std::make_shared<ModelResource>(device, "Data/Boss/Salamander_.fbx");
+		scene->boss_model = std::make_shared<Model>(scene->boss_model_resource);
+		scene->boss_model->play_animation(1, true);
+		scene->boss_object = std::make_shared<BossObject>();
+		scene->boss_object->initialize();
+		scene->boss_object->set_model(scene->boss_model);
+		scene->boss_object->set_model_renderer(scene->boss_model_renderer);
+
+		// static
+		scene->ground_mesh = std::make_shared<StaticMesh>(device, "Data/Stage/map.fbx", false);
+		scene->ground_object = std::make_shared<StaticObject>(scene->ground_mesh);
+
+		scene->ground_collision_mesh = std::make_shared<StaticMesh>(device, "Data/Stage/wall.fbx", false);
+		scene->ground_collision_object = std::make_shared<StaticObject>(scene->ground_collision_mesh);
+
+		// collision
+		scene->ground_collision = std::make_shared<Collision>();
+		scene->ground_collision->register_terrain(scene->ground_collision_object);
+	}
+
 	scene->now_loading = false;
 }
 
@@ -28,39 +71,9 @@ void GameScene::initialize()
 	camera = std::make_unique<TPCamera>();
 	camera->initialize();
 
-	//shader
-	lambert_shader = std::make_shared<LambertShader>(device);
-	sprite_shader = std::make_shared<SpriteShader>(device);
-
-	//プレイヤー
-	player_model_renderer = std::make_shared<ModelRenderer>(device);
-	player_model_renderer->set_shader(lambert_shader);
-
-	player_model_resource = std::make_shared<ModelResource>(device, "Data/Player/001.fbx");
-
-	player_model = std::make_shared<Model>(player_model_resource);
-	player_model->play_animation(0, true);
-
-	player_object = std::make_unique<PlayerObject>();
-	player_object->initialize();
-	player_object->transform.scale = DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f);
-	player_object->set_model(player_model);
-	player_object->set_model_renderer(player_model_renderer);
-
 	//sprite
-	sprite = std::make_unique<Sprite>(device, L"Data/Sprite/earthmap.jpg");
-	sprite->set_shader(sprite_shader);
-
-	// static
-	ground_mesh = std::make_shared<StaticMesh>(device, "Data/Stage/map.fbx", false);
-	ground_object = std::make_shared<StaticObject>(ground_mesh);
-
-	ground_collision_mesh = std::make_shared<StaticMesh>(device, "Data/Stage/wall.fbx", false);
-	ground_collision_object = std::make_shared<StaticObject>(ground_collision_mesh);
-
-	// collision
-	ground_collision = std::make_shared<Collision>();
-	ground_collision->register_terrain(ground_collision_object);
+		/*sprite = std::make_unique<Sprite>(device, L"Data/Sprite/earthmap.jpg");
+		sprite->set_shader(sprite_shader);*/
 
 	//マルチスレッド
 	now_loading = true;
@@ -86,7 +99,7 @@ void GameScene::update()
 
 	float time = 60.0f;
 	if (player_model->current_animation == 0)time = 60.f;
-	if (player_model->current_animation == 1 || player_model->current_animation == 2 || player_model->current_animation == 3)time = 120.0f;
+	if (player_model->current_animation == 1 || player_model->current_animation == 2 || player_model->current_animation == 3)time = 60.0f;
 	if (player_model->current_animation == 5)time = 180.0f;
 
 	player_model->update_animation(1.0f / time);
@@ -96,7 +109,10 @@ void GameScene::update()
 	player_object->setCameraAngle(camera->get_rotate());
 	player_object->update(ground_collision);
 
-	
+
+	//boss
+	boss_model->update_animation(1.0f / 60.0f);
+	boss_object->update(ground_collision, player_object);
 
 }
 
@@ -122,8 +138,9 @@ void GameScene::render()
 
 	//描画
 	ground_object->render(immediate_context, view_projection, light_direction);
+	boss_object->render(immediate_context, view_projection, light_direction);
 	player_object->render(immediate_context, view_projection, light_direction);
-	sprite->render(immediate_context, { 0,0 }, { 1,1 }, 0, { 200,200 }, { 100,100 }, {100,100});
+	//sprite->render(immediate_context, { 0,0 }, { 1,1 }, 0, { 200,200 }, { 100,100 }, {100,100});
 
 	//描画終了
 	frame_buffer->deactivate(immediate_context);

@@ -210,11 +210,11 @@ void PlayerObject::hitWall(std::shared_ptr<Collision> collision)
 	endPosition.z = transform.position.z;
 
 	/*outPosition = endPosition;*/
-	ImGui::Begin("rayCast");
+	/*ImGui::Begin("rayCast");
 	ImGui::Text("%f", velocity.x);
 	ImGui::Text("%f", startPosition.z);
 	ImGui::Text("%f", endPosition.z);
-	ImGui::End();
+	ImGui::End();*/
 	collision->move_check(startPosition, endPosition, &outPosition);
 	transform.position.x = outPosition.x;
 	transform.position.y = outPosition.y - 1.0f;
