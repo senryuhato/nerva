@@ -50,4 +50,5 @@ public:
 	const DirectX::XMFLOAT3& get_front() { return front; }
 	const DirectX::XMFLOAT3& get_right() { return right; }
 	const DirectX::XMFLOAT3& get_rotate() { return rotate; }
+	void set_rotate(DirectX::XMFLOAT3 r) { this->rotate = r; }
 };

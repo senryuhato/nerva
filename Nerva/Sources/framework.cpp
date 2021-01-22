@@ -224,10 +224,11 @@ bool Framework::initialize(bool is_fullscreen)
 	// soundSE[0] = soundManager->CreateSoundSource("Data/Sound/SE/filename.wav");
 
 	// soundBGM[0] = soundManager->CreateSoundSource("Data/Sound/BGM/darkmatter.wav");
-	soundBGM[0] = soundManager->CreateSoundSource("Data/Sound/BGM/bgm.wav");
-	soundBGM[0]->SetVolume(0.55);
+	// soundBGM[0] = soundManager->CreateSoundSource("Data/Sound/BGM/bgm.wav");
+	soundBGM[0] = soundManager->CreateSoundSource("Data/Sound/BGM/battle.wav");
+	// soundBGM[0]->SetVolume(0.55);
 	// true:ƒ‹[ƒv
-	soundBGM[0]->Play(true);
+	// soundBGM[0]->Play(true);
 
 	// soundBGM[0]->Stop();
 

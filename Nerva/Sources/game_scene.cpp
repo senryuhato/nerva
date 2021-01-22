@@ -25,7 +25,7 @@ void GameScene::initialize()
 	blend_state = std::make_unique<BlendState>(device, BlendState::ALPHA);
 
 	//カメラ
-	camera = std::make_unique<Camera>();
+	camera = std::make_unique<TPCamera>();
 	camera->initialize();
 
 	//shader
@@ -36,7 +36,7 @@ void GameScene::initialize()
 	player_model_renderer = std::make_shared<ModelRenderer>(device);
 	player_model_renderer->set_shader(lambert_shader);
 
-	player_model_resource = std::make_shared<ModelResource>(device, "Data/Player/test_a.fbx");
+	player_model_resource = std::make_shared<ModelResource>(device, "Data/Player/001.fbx");
 
 	player_model = std::make_shared<Model>(player_model_resource);
 	player_model->play_animation(0, true);
@@ -61,6 +61,15 @@ void GameScene::update()
 	if (is_now_loading()) return;
 
 	//カメラ
+	camera->set_rotate(DirectX::XMFLOAT3(player_object->rotate.x, player_object->rotate.y, player_object->rotate.z));
+	{
+		float dist = 10.0f;
+		DirectX::XMFLOAT3 f = DirectX::XMFLOAT3(player_object->transform.position);
+		f.x = f.x + player_object->axisFront.x * dist;
+		f.y = f.y + player_object->axisFront.y * dist;
+		f.z = f.z + player_object->axisFront.z * dist;
+		camera->set_focus(f);
+	}
 	camera->update();
 
 	float time = 60.0f;
@@ -71,8 +80,7 @@ void GameScene::update()
 	player_model->update_animation(1.0f / time);
 
 	//プレイヤー
-	player_object->setCameraFrontRight(camera->get_front(), camera->get_right());
-	player_object->setCameraAngle(camera->get_rotate());
+	// player_object->setCameraAngle(camera->get_rotate());
 	player_object->update();
 }
 
