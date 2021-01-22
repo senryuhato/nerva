@@ -36,10 +36,12 @@
 // Level9 shader bytecode:
 //
     ps_2_x
-    dcl t0.xy
+    dcl t0.xy  // pin<4,5>
     dcl_2d s0
-    texld r0, t0, s0
-    mov oC0, r0
+
+#line 8 "C:\Users\2190441\Desktop\2年晁E授業\2年後期チ�Eム製作\第3回\Nerva\NervaLib\fullscreen_quad_ps.hlsl"
+    texld r0, t0, s0  // ::main<0,1,2,3>
+    mov oC0, r0  // ::main<0,1,2,3>
 
 // approximately 2 instruction slots used (1 texture, 1 arithmetic)
 ps_4_0
@@ -47,6 +49,13 @@ dcl_sampler s0, mode_default
 dcl_resource_texture2d (float,float,float,float) t0
 dcl_input_ps linear v1.xy
 dcl_output o0.xyzw
+//
+// Initial variable locations:
+//   v0.x <- pin.position.x; v0.y <- pin.position.y; v0.z <- pin.position.z; v0.w <- pin.position.w; 
+//   v1.x <- pin.texcoord.x; v1.y <- pin.texcoord.y; 
+//   o0.x <- <main return value>.x; o0.y <- <main return value>.y; o0.z <- <main return value>.z; o0.w <- <main return value>.w
+//
+#line 8 "C:\Users\2190441\Desktop\2年晁E授業\2年後期チE"
 sample o0.xyzw, v1.xyxx, t0.xyzw, s0
 ret 
 // Approximately 2 instruction slots used

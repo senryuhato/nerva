@@ -19,10 +19,8 @@
 #include "model_renderer.h"
 #include "collision.h"
 #include "camera.h"
-#include "TPCamera.h"
-#include "player_object.h"
 
-class GameScene : public Scene
+class TitleScene :public Scene
 {
 public:
 	//描画関係
@@ -33,27 +31,27 @@ public:
 	std::unique_ptr<BlendState> blend_state;
 
 	//カメラ
-	std::unique_ptr<TPCamera> camera;
+	std::unique_ptr<Camera> camera;
 
 	//shader
 	std::shared_ptr<Shader> lambert_shader;
 	std::shared_ptr<Shader> sprite_shader;
 
 	//プレイヤー
-	std::shared_ptr<ModelResource> player_model_resource;
-	std::shared_ptr<Model> player_model;
-	std::shared_ptr<ModelRenderer> player_model_renderer;
-	std::unique_ptr<PlayerObject> player_object;
+	//std::shared_ptr<ModelResource> player_model_resource;
+	//std::shared_ptr<Model> player_model;
+	//std::shared_ptr<ModelRenderer> player_model_renderer;
+	//std::unique_ptr<PlayerObject> player_object;
 
 	//static
-	std::shared_ptr<StaticMesh> ground_mesh;
-	std::shared_ptr<StaticObject> ground_object;
+	//std::shared_ptr<StaticMesh> ground_mesh;
+	//std::shared_ptr<StaticObject> ground_object;
 
-	std::shared_ptr<StaticMesh> ground_collision_mesh;
-	std::shared_ptr<StaticObject> ground_collision_object;
+	//std::shared_ptr<StaticMesh> ground_collision_mesh;
+	//std::shared_ptr<StaticObject> ground_collision_object;
 
-	//collision
-	std::shared_ptr<Collision> ground_collision;
+	////collision
+	//std::shared_ptr<Collision> ground_collision;
 
 	//sprite
 	std::unique_ptr<Sprite> sprite;
@@ -68,7 +66,7 @@ public:
 	std::mutex loading_mutex;
 	std::unique_ptr<std::thread> loading_thread;
 	bool now_loading = true;
-	static void loading_thread_function(GameScene* scene, ID3D11Device* device);
+	static void loading_thread_function(TitleScene* scene, ID3D11Device* device);
 	bool is_now_loading()
 	{
 		if (loading_thread && !now_loading && loading_mutex.try_lock())
@@ -78,7 +76,7 @@ public:
 		}
 		return true;
 	}
-	~GameScene()
+	~TitleScene()
 	{
 		if (loading_thread && loading_thread->joinable()) loading_thread->join();
 		uninitialize();

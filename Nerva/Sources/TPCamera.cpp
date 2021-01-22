@@ -4,54 +4,56 @@
 
 void TPCamera::update()
 {
-	//POINT cursor;
-	//::GetCursorPos(&cursor);
+	if (KeyInput::key_state() & KEY_ALT)
+		return;
 
-	//old_cursor = current_cursor;
-	//current_cursor = DirectX::XMFLOAT2(static_cast<float>(cursor.x), static_cast<float>(cursor.y));
+	POINT cursor;
+	::GetCursorPos(&cursor);
 
-	//float move_x = (current_cursor.x - old_cursor.x) * 0.02f;
-	//float move_y = (current_cursor.y - old_cursor.y) * 0.02f;
+	old_cursor = current_cursor;
+	current_cursor = DirectX::XMFLOAT2(static_cast<float>(cursor.x), static_cast<float>(cursor.y));
 
-	//// if (KeyInput::key_state() & KEY_ALT)
-	//{
+	float move_x = (current_cursor.x - old_cursor.x) * 0.02f;
+	float move_y = (current_cursor.y - old_cursor.y) * 0.02f;
 
-	//	{
-	//		// YŽ²‰ñ“]
-	//		rotate.y += move_x * 0.5f;
-	//		if (rotate.y > DirectX::XM_PI/2)
-	//		{
-	//			rotate.y -= DirectX::XM_2PI;
-	//		}
-	//		else if (rotate.y < -DirectX::XM_PI/2)
-	//		{
-	//			rotate.y += DirectX::XM_2PI;
-	//		}
-	//		// XŽ²‰ñ“]
-	//		rotate.x += move_y * 0.5f;
-	//		if (rotate.x > DirectX::XM_PI)
-	//		{
-	//			rotate.x -= DirectX::XM_2PI;
-	//		}
-	//		else if (rotate.x < -DirectX::XM_PI)
-	//		{
-	//			rotate.x += DirectX::XM_2PI;
-	//		}
-	//		
-	//	}
-	//}
+	// if (KeyInput::key_state() & KEY_ALT)
+	{
 
-	//RECT rc;
-	//GetClientRect(Framework::instance().get_hwnd(), &rc);
-	//float screen_width = rc.right - rc.left;
-	//float screen_height = rc.bottom - rc.top;
-	//if (current_cursor.x > screen_width / 2 + 1 || current_cursor.x < screen_width / 2 - 1 || current_cursor.y > screen_width / 2 + 1 || current_cursor.y < screen_height / 2 - 1)
-	//{
-	//	::SetCursorPos(screen_width / 2, screen_height / 2);
-	//	::GetCursorPos(&cursor);
-	//	current_cursor = DirectX::XMFLOAT2(static_cast<float>(cursor.x), static_cast<float>(cursor.y));
-	//	old_cursor = current_cursor;
-	//}
+		{
+			// YŽ²‰ñ“]
+			rotate.y += move_x * 0.5f;
+			if (rotate.y > DirectX::XM_PI)
+			{
+				rotate.y -= DirectX::XM_2PI;
+			}
+			else if (rotate.y < -DirectX::XM_PI)
+			{
+				rotate.y += DirectX::XM_2PI;
+			}
+			// XŽ²‰ñ“]
+			/*rotate.x += move_y * 0.5f;
+			if (rotate.x > DirectX::XM_PI)
+			{
+				rotate.x -= DirectX::XM_2PI;
+			}
+			else if (rotate.x < -DirectX::XM_PI)
+			{
+				rotate.x += DirectX::XM_2PI;
+			}*/
+			
+		}
+	}
+
+	RECT rc;
+	GetClientRect(Framework::instance().get_hwnd(), &rc);
+	float screen_width = rc.right - rc.left;
+	float screen_height = rc.bottom - rc.top;
+	if (current_cursor.x > screen_width / 2 + 1 || current_cursor.x < screen_width / 2 - 1 || current_cursor.y > screen_width / 2 + 1 || current_cursor.y < screen_height / 2 - 1)
+	{
+		::SetCursorPos(screen_width / 2, screen_height / 2);
+		current_cursor = DirectX::XMFLOAT2(static_cast<float>(screen_width / 2), static_cast<float>(screen_height / 2));
+		old_cursor = current_cursor;
+	}
 
 	DirectX::XMMATRIX r_matrix = {};
 	r_matrix = DirectX::XMMatrixRotationRollPitchYaw(rotate.x, rotate.y, rotate.z);
@@ -64,7 +66,7 @@ void TPCamera::update()
 	DirectX::XMVECTOR distance = DirectX::XMVectorSet(this->distance, this->distance, this->distance, 0.0f);
 	DirectX::XMVECTOR eye = DirectX::XMVectorSubtract(focus, DirectX::XMVectorMultiply(front, distance));
 
-	DirectX::XMFLOAT3 minus = { -1,-1,-1 };
+	// DirectX::XMFLOAT3 minus = { -1,-1,-1 };
 
 	DirectX::XMStoreFloat3(&this->eye, eye);
 	DirectX::XMStoreFloat3(&this->up, up);

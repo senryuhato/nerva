@@ -97,8 +97,8 @@ void DebugScene::update()
 	boss_object->update(ground_collision, player_object);
 
 	//ƒvƒŒƒCƒ„[
-	//player_model->update_animation(1.0f / 60.0f);
-	//player_object->update();
+	// player_model->update_animation(1.0f / 60.0f);
+	// player_object->update(ground_collision);
 
 	if (KeyInput::key_trigger() & KEY_ENTER) SceneManager::instance().change_scene("GAME");
 	if (KeyInput::key_trigger() & KEY_Q) SceneManager::instance().change_scene("DEBUG");

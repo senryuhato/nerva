@@ -1,6 +1,7 @@
 #pragma once
 
 #include "model_object.h"
+#include "collision.h"
 
 class PlayerObject : public ModelObject
 {
@@ -25,7 +26,7 @@ public:
 public:
 	// 移動系
 	// キー入力による移動
-	void move();
+	void move(std::shared_ptr<Collision> collision);
 	void attack();
 	
 	// カメラの正面と右方向をとってくるための関数
@@ -33,7 +34,9 @@ public:
 	void setCameraAngle(const DirectX::XMFLOAT3 rotate);
 	// 
 	void direction();
+	// 壁との当たり判定をとる関数
+	void hitWall(std::shared_ptr<Collision> collision);
 	
 	// void initialize();
-	void update();
+	void update(std::shared_ptr<Collision> collision);
 };
