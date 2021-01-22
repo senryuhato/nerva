@@ -2,7 +2,7 @@
 
 #include "player_object.h"
 #include "boss_object.h"
-
+#include "judge.h"
 
 void Collision::register_terrain(std::shared_ptr<StaticObject>& obj)
 {
@@ -159,8 +159,88 @@ int Collision::move_check02(const DirectX::XMFLOAT3& startPosition, const Direct
 	return materialIndex;
 }
 
+#include <string>
 
 void Hit::hit_judge(std::shared_ptr<PlayerObject> pl, std::shared_ptr<BossObject> bs)
 {
+	DirectX::XMFLOAT3 p_root_1 = {};
+	DirectX::XMFLOAT3 p_root_2 = {};
+	for (auto& it : pl->model->nodes)
+	{
+		std::string str1 = "joint1";
+		std::string str2 = "joint2";
+		if (it.name == str1)
+		{
+			p_root_1 =
+			{
+				it.world_transform._41,
+				it.world_transform._42,
+				it.world_transform._43,
+			};
+		}
+		if(it.name == str2)
+		{
+			p_root_2 =
+			{
+				it.world_transform._41,
+				it.world_transform._42,
+				it.world_transform._43,
+			};
+		}
+	}
 
+	DirectX::XMFLOAT3 bs_head = {};
+	DirectX::XMFLOAT3 bs_teil1 = {};
+	DirectX::XMFLOAT3 bs_teil2 = {};
+	for (auto& it : bs->model->nodes)
+	{
+		std::string str1 = "atama";
+		std::string str2 = "sippo1";
+		std::string str3 = "sippo7";
+		if (it.name == str1)
+		{
+			bs_head =
+			{
+				it.world_transform._41,
+				it.world_transform._42,
+				it.world_transform._43,
+			};
+		}
+		if (it.name == str2)
+		{
+			bs_teil1 =
+			{
+				it.world_transform._41,
+				it.world_transform._42,
+				it.world_transform._43,
+			};
+		}
+		if (it.name == str3)
+		{
+			bs_teil2 =
+			{
+				it.world_transform._41,
+				it.world_transform._42,
+				it.world_transform._43,
+			};
+		}
+	}
+
+	if (pl->hit)
+	{
+		if (isHitCapsuleCapsule(p_root_1, p_root_2, 1.0f, bs_head, bs_teil2, 8))
+		{
+			pl->hit = false;
+			bs->hp -= 5;
+		}
+	}
+
+	if (bs->hit)
+	{
+		if (isHitSphereCapsule(bs_head, 8, pl->transform.position, DirectX::XMFLOAT3(pl->transform.position.x, pl->transform.position.y+8, pl->transform.position.z),1))
+		{
+			bs->hit = false;
+			pl->hp -= 5;
+		}
+	}
 }

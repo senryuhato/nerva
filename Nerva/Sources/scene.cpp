@@ -29,11 +29,7 @@ void SceneManager::initialize()
 		scenes.insert(std::make_pair(scene_name, std::make_shared<DebugScene>()));
 	}
 
-<<<<<<< HEAD
-	current_scene = "TITLE";
-=======
 	current_scene = "GAME";
->>>>>>> imataki
 
 	scenes.at(current_scene)->initialize();
 }

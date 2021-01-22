@@ -49,6 +49,7 @@ void BossObject::update(std::shared_ptr<Collision> collision, std::shared_ptr<Mo
 			{
 			case 0:
 				//todo : 00
+				hit = false;
 				model->play_animation(0, true);
 				move_type++;
 				break;
@@ -138,6 +139,7 @@ void BossObject::update(std::shared_ptr<Collision> collision, std::shared_ptr<Mo
 				//todo : 00
 				model->play_animation(2, true);
 				timer = 0.0f;
+				hit = true;
 				move_type++;
 				break;
 			case 1:
@@ -171,6 +173,7 @@ void BossObject::update(std::shared_ptr<Collision> collision, std::shared_ptr<Mo
 				model->play_animation(1, false);
 				timer = 0.0f;
 				move_type++;
+				hit = true;
 				break;
 			case 1:
 			{

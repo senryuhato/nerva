@@ -13,7 +13,7 @@ void GameScene::loading_thread_function(GameScene* scene, ID3D11Device* device)
 	{
 		//shader
 		scene->lambert_shader = std::make_shared<LambertShader>(device);
-		scene->sprite_shader = std::make_shared<SpriteShader>(device);
+		
 
 		//プレイヤー
 		scene->player_model_renderer = std::make_shared<ModelRenderer>(device);
@@ -77,6 +77,26 @@ void GameScene::initialize()
 	//sprite
 		/*sprite = std::make_unique<Sprite>(device, L"Data/Sprite/earthmap.jpg");
 		sprite->set_shader(sprite_shader);*/
+	sprite_shader = std::make_shared<SpriteShader>(device);
+
+	clear = std::make_unique<Sprite>(device, L"Data/Sprite/Congratulation.png");
+	clear->set_shader(sprite_shader);
+
+	over = std::make_unique<Sprite>(device, L"Data/Sprite/Failed.png");
+	over->set_shader(sprite_shader);
+
+
+	b_hp = std::make_unique<Sprite>(device, L"Data/Sprite/ui.png");
+	b_hp->set_shader(sprite_shader);
+
+	p_hp = std::make_unique<Sprite>(device, L"Data/Sprite/ui Player.png");
+	p_hp->set_shader(sprite_shader);
+
+	hp = std::make_unique<Sprite>(device, L"Data/Sprite/ui(2)png.png");
+	hp->set_shader(sprite_shader);
+
+	text = std::make_unique<Sprite>(device, L"Data/Sprite/text.png");
+	text->set_shader(sprite_shader);
 
 	//マルチスレッド
 	now_loading = true;
@@ -119,6 +139,7 @@ void GameScene::update()
 
 
 	hit->hit_judge(player_object, boss_object);
+
 }
 
 void GameScene::render()
@@ -151,6 +172,34 @@ void GameScene::render()
 	frame_buffer->deactivate(immediate_context);
 	fullscreen_quad->blit(immediate_context, frame_buffer->render_target_shader_resource_view.Get(), true, true, true);
 
+
+	hp->render(immediate_context, { 320, 100}, { 1,1 }, 0, { 720,200 }, { 0,0 }, { 720,200 });
+	hp->render(immediate_context, { 320, -500 }, { 1,1 }, 0, { 720,200 }, { 0,0 }, { 720,200 });
+
+	b_hp->render(immediate_context, { 320, 100 }, { 1,1 }, 0, { 720.0f / 100.0f * boss_object->hp,200 }, { 0,0 }, { 720,200 });
+
+	p_hp->render(immediate_context, { 320,  -500 }, { 1,1 }, 0, { 720.0f / 100.0f*player_object->hp, 200}, { 0,0 }, { 720,200 });
+
+	text->render(immediate_context, { 0,  0 }, { 1,1 }, 0, { 1280,720 }, { 0,0 }, { 1280,720 });
+
+	static float time = 0.0f;
+	if(player_object->hp <= 0)
+	{
+		clear->render(immediate_context, { 200,-200 }, { 1,1 }, 0, { 800,200 }, { 0,0 }, { 800,200 });
+		time += Framework::instance().get_elapsed_time();
+
+	}
+	if (boss_object->hp <= 0)
+	{
+		over->render(immediate_context, { 200,-200 }, { 1,1 }, 0, { 800,200 }, { 0,0 }, { 800,200 });
+		time += Framework::instance().get_elapsed_time();
+
+	}
+
+	if (time > 3)
+	{
+		SceneManager::instance().change_scene("TITLE");
+	}
 	//state
 	blend_state->deactivate(immediate_context);
 }

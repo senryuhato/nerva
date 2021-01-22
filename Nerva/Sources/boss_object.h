@@ -10,6 +10,7 @@ public:
 	int move_type = 0;
 	int motion_type = 0;
 	float hp = 100;
+	bool hit = false;
 	void initialize();
 	void update(std::shared_ptr<Collision> collision, std::shared_ptr<ModelObject> model_object);
 };
