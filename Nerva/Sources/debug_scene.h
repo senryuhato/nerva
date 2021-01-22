@@ -44,17 +44,20 @@ public:
 	std::shared_ptr<ModelResource> player_model_resource;
 	std::shared_ptr<Model> player_model;
 	std::shared_ptr<ModelRenderer> player_model_renderer;
-	std::unique_ptr<PlayerObject> player_object;
+	std::shared_ptr<PlayerObject> player_object;
 
 	//boss
 	std::shared_ptr<ModelResource> boss_model_resource;
 	std::shared_ptr<Model> boss_model;
 	std::shared_ptr<ModelRenderer> boss_model_renderer;
-	std::unique_ptr<BossObject> boss_object;
+	std::shared_ptr<BossObject> boss_object;
 
 	//static
 	std::shared_ptr<StaticMesh> ground_mesh;
 	std::shared_ptr<StaticObject> ground_object;
+
+	std::shared_ptr<StaticMesh> ground_collision_mesh;
+	std::shared_ptr<StaticObject> ground_collision_object;
 
 	//collision
 	std::shared_ptr<Collision> ground_collision;
