@@ -16,9 +16,11 @@
 #include <mutex>
 
 #include "scene.h"
+#include "player_object.h"
 #include "model_renderer.h"
 #include "collision.h"
 #include "camera.h"
+#include "TPCamera.h"
 
 class TitleScene :public Scene
 {
@@ -38,23 +40,26 @@ public:
 	std::shared_ptr<Shader> sprite_shader;
 
 	//ÉvÉåÉCÉÑÅ[
-	//std::shared_ptr<ModelResource> player_model_resource;
-	//std::shared_ptr<Model> player_model;
-	//std::shared_ptr<ModelRenderer> player_model_renderer;
-	//std::unique_ptr<PlayerObject> player_object;
+	std::shared_ptr<ModelResource> player_model_resource;
+	std::shared_ptr<Model> player_model;
+	std::shared_ptr<ModelRenderer> player_model_renderer;
+	std::shared_ptr<PlayerObject> player_object;
 
 	//static
-	//std::shared_ptr<StaticMesh> ground_mesh;
-	//std::shared_ptr<StaticObject> ground_object;
+	std::shared_ptr<StaticMesh> ground_mesh;
+	std::shared_ptr<StaticObject> ground_object;
 
-	//std::shared_ptr<StaticMesh> ground_collision_mesh;
-	//std::shared_ptr<StaticObject> ground_collision_object;
+	std::shared_ptr<StaticMesh> ground_collision_mesh;
+	std::shared_ptr<StaticObject> ground_collision_object;
 
-	////collision
-	//std::shared_ptr<Collision> ground_collision;
+	//collision
+	std::shared_ptr<Collision> ground_collision;
 
 	//sprite
 	std::unique_ptr<Sprite> sprite;
+	std::unique_ptr<Sprite> start;
+	std::unique_ptr<Sprite> nowString;
+	std::unique_ptr<Sprite> nowWheel;
 
 public:
 	void initialize();
