@@ -112,3 +112,45 @@ int Collision::move_check(const DirectX::XMFLOAT3& startPosition, const DirectX:
 
 	return materialIndex;
 }
+
+int Collision::move_check02(const DirectX::XMFLOAT3& startPosition, const DirectX::XMFLOAT3& endPosition, DirectX::XMFLOAT3* outPosition, float range)
+{
+	if (!terrain) return -1;
+	// レイピック 
+	DirectX::XMFLOAT3 hitPosition, hitNormal;
+	int materialIndex = ray_pick(startPosition, endPosition, &hitPosition, &hitNormal);
+	if (materialIndex == -1)
+	{
+		// ヒットしなかったら移動後の位置は終点 
+		*outPosition = endPosition;
+		return materialIndex;
+	}
+
+	// 壁をつきぬけたベクトル 
+	{
+		DirectX::XMVECTOR start = DirectX::XMLoadFloat3(&hitPosition);
+		DirectX::XMVECTOR end = DirectX::XMLoadFloat3(&endPosition);
+		DirectX::XMVECTOR vec = DirectX::XMVectorSubtract(start, end);
+
+		// 壁の法線ベクトルを単位化 
+		hitNormal.y = 0.0f;
+		DirectX::XMVECTOR normal = DirectX::XMVector3Normalize(DirectX::XMLoadFloat3(&hitNormal));
+
+		// 入射ベクトルを法線に射影 
+		DirectX::XMVECTOR dot = DirectX::XMVector3Dot(normal, vec);
+
+		// 補正位置の計算 
+		DirectX::XMVECTOR position = DirectX::XMVectorAdd(end, DirectX::XMVectorMultiply(normal, dot));
+
+		DirectX::XMStoreFloat3(outPosition, position);
+	}
+
+	// 補正後の位置が壁にめり込んでいた場合は移動しないようにする 
+	if (ray_pick(startPosition, *outPosition, &hitPosition, &hitNormal) != -1)
+	{
+		*outPosition = startPosition;
+		return materialIndex;
+	}
+
+	return materialIndex;
+}
