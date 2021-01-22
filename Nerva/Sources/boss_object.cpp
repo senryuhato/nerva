@@ -29,9 +29,11 @@ void BossObject::update(std::shared_ptr<Collision> collision, std::shared_ptr<Mo
 
 		float a_cos;
 		DirectX::XMStoreFloat(&a_cos, dot);
-		a_cos = acosf(-1.1);
+		if (a_cos < -1.0f) a_cos = -1.0f;
+		if (a_cos > 1.0f) a_cos = 1.0f;
+		a_cos = acosf(a_cos);
 
-		transform.angle.y += a_cos * elaspsed_time;
+		transform.angle.y += a_cos;
 	}
 		break;
 	}
