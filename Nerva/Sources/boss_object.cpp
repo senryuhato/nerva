@@ -107,7 +107,9 @@ void BossObject::update(std::shared_ptr<Collision> collision, std::shared_ptr<Mo
 				DirectX::XMStoreFloat(&len, DirectX::XMVector3Length(cross));
 				if (len == 0.0f)
 				{
-					DirectX::XMStoreFloat4(&transform.rotation, DirectX::XMQuaternionMultiply(DirectX::XMLoadFloat4(&transform.rotation), DirectX::XMLoadFloat4(&transform.euler({ 0.0f, DirectX::XMConvertToRadians(45) * elaspsed_time, 0.0f }))));
+					DirectX::XMFLOAT3 a(0.0f, DirectX::XMConvertToRadians(45) * elaspsed_time, 0.0f);
+					DirectX::XMFLOAT4 b = transform.euler(a);
+					DirectX::XMStoreFloat4(&transform.rotation, DirectX::XMQuaternionMultiply(DirectX::XMLoadFloat4(&transform.rotation), DirectX::XMLoadFloat4(&b)));
 					break;
 				}
 				DirectX::XMVECTOR quaternion = DirectX::XMQuaternionRotationAxis(cross, angle);
