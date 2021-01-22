@@ -21,6 +21,7 @@
 #include "camera.h"
 #include "TPCamera.h"
 #include "player_object.h"
+#include "boss_object.h"
 
 class GameScene : public Scene
 {
@@ -43,7 +44,13 @@ public:
 	std::shared_ptr<ModelResource> player_model_resource;
 	std::shared_ptr<Model> player_model;
 	std::shared_ptr<ModelRenderer> player_model_renderer;
-	std::unique_ptr<PlayerObject> player_object;
+	std::shared_ptr<PlayerObject> player_object;
+
+	//boss
+	std::shared_ptr<ModelResource> boss_model_resource;
+	std::shared_ptr<Model> boss_model;
+	std::shared_ptr<ModelRenderer> boss_model_renderer;
+	std::shared_ptr<BossObject> boss_object;
 
 	//static
 	std::shared_ptr<StaticMesh> ground_mesh;

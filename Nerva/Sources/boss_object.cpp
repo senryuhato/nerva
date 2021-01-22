@@ -3,6 +3,14 @@
 #include "framework.h"
 #include "imgui.h"
 
+void BossObject::initialize()
+{
+	transform.initialize();
+
+	transform.position.z = 25;
+}
+
+
 void BossObject::update(std::shared_ptr<Collision> collision, std::shared_ptr<ModelObject> model_object)
 {
 	float elaspsed_time = Framework::instance().get_elapsed_time();
@@ -116,7 +124,7 @@ void BossObject::update(std::shared_ptr<Collision> collision, std::shared_ptr<Mo
 
 				DirectX::XMVECTOR orien = DirectX::XMQuaternionMultiply(DirectX::XMLoadFloat4(&transform.rotation), quaternion);
 
-				DirectX::XMStoreFloat4(&transform.rotation, DirectX::XMQuaternionSlerp(DirectX::XMLoadFloat4(&transform.rotation), orien, 0.01f));
+				DirectX::XMStoreFloat4(&transform.rotation, DirectX::XMQuaternionSlerp(DirectX::XMLoadFloat4(&transform.rotation), orien, 0.05f));
 			}
 			break;
 			}
