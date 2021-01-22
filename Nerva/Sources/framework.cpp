@@ -225,10 +225,7 @@ bool Framework::initialize(bool is_fullscreen)
 
 	// soundBGM[0] = soundManager->CreateSoundSource("Data/Sound/BGM/darkmatter.wav");
 	// soundBGM[0] = soundManager->CreateSoundSource("Data/Sound/BGM/bgm.wav");
-<<<<<<< HEAD
 	soundBGM[0] = soundManager->CreateSoundSource("Data/Sound/BGM/battle.wav");
-=======
->>>>>>> imataki
 	// soundBGM[0]->SetVolume(0.55);
 	// true:ƒ‹[ƒv
 	// soundBGM[0]->Play(true);
