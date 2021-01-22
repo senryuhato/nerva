@@ -1,52 +1,188 @@
 #include "../NervaLib/key_input.h"
 #include "boss_object.h"
 #include "framework.h"
+#include "imgui.h"
 
 void BossObject::update(std::shared_ptr<Collision> collision, std::shared_ptr<ModelObject> model_object)
 {
 	float elaspsed_time = Framework::instance().get_elapsed_time();
 
-	int motion_type = 0;
+
+	DirectX::XMFLOAT3 orient(transform.world._31, transform.world._32, transform.world._33);
+	DirectX::XMFLOAT3 p_orient =
+	{
+	model_object->transform.position.x - transform.position.x,
+	model_object->transform.position.y - transform.position.y,
+	model_object->transform.position.z - transform.position.z,
+	};
+
+
+	DirectX::XMVECTOR orient_ = DirectX::XMLoadFloat3(&orient);
+	DirectX::XMVECTOR p_orient_ = DirectX::XMLoadFloat3(&p_orient);
+
+	float len;
+	DirectX::XMStoreFloat(&len, DirectX::XMVector3Length(p_orient_));
+
+	orient_ = DirectX::XMVector3Normalize(orient_);
+	p_orient_ = DirectX::XMVector3Normalize(p_orient_);
+
+	float dot;
+
+	DirectX::XMStoreFloat(&dot, DirectX::XMVector3Dot(orient_, p_orient_));
+	float angle = acosf(dot);
 
 	switch (motion_type)
 	{
 	case 0:
 	{
-		DirectX::XMFLOAT3 dis_pos = 
+		switch (move_type)
 		{
-			model_object->transform.position.x - transform.position.x,
-			model_object->transform.position.y - transform.position.y,
-			model_object->transform.position.z - transform.position.z
-		};
+		case 0:
+			//todo : 00
+			model->play_animation(0, true);
+			move_type++;
+			break;
+		case 1:
+		{
 
-		DirectX::XMVECTOR pos_1 = DirectX::XMVector3Normalize(DirectX::XMLoadFloat3(&dis_pos));
+			if (len > 30)
+			{
+				if (dot > 0.90)
+				{
+					motion_type = 2;
+					move_type = 0;
+				}
+				else
+				{
+					motion_type = 1;
+					move_type = 0;
+				}
 
-		DirectX::XMFLOAT3 this_pos = DirectX::XMFLOAT3(transform.world._41, transform.world._42, transform.world._43);
-
-		DirectX::XMVECTOR pos_2 = DirectX::XMVector3Normalize(DirectX::XMLoadFloat3(&this_pos));
-
-		DirectX::XMVECTOR dot = DirectX::XMVector3Dot(pos_1, pos_2);
-
-		float a_cos;
-		DirectX::XMStoreFloat(&a_cos, dot);
-		if (a_cos < -1.0f) a_cos = -1.0f;
-		if (a_cos > 1.0f) a_cos = 1.0f;
-		a_cos = acosf(a_cos);
-
-		transform.angle.y += a_cos;
-	}
+			}
+			/*else if (len > 16)
+			{
+				motion_type = 1;
+				move_type = 0;
+			}*/
+			else if (len < 30)
+			{
+				if (dot > 0.90)
+				{
+					motion_type = 3;
+					move_type = 0;
+				}
+				else
+				{
+					motion_type = 1;
+					move_type = 0;
+				}
+			}
+		}
 		break;
+		}
+	}
+	break;
+	case 1:
+	{
+		switch (move_type)
+		{
+		case 0:
+			//todo : 00
+			model->play_animation(4, true);
+			move_type++;
+			break;
+		case 1:
+		{
+			if (len == 0.0f) break;
+
+			if (dot >= 0.99f)
+			{
+				motion_type = 0;
+				move_type = 0;
+			}
+
+			DirectX::XMVECTOR cross = DirectX::XMVector3Cross(orient_, p_orient_);
+			DirectX::XMStoreFloat(&len, DirectX::XMVector3Length(cross));
+			if (len == 0.0f)
+			{
+				DirectX::XMStoreFloat4(&transform.rotation, DirectX::XMQuaternionMultiply(DirectX::XMLoadFloat4(&transform.rotation), DirectX::XMLoadFloat4(&transform.euler({ 0.0f, DirectX::XMConvertToRadians(45) * elaspsed_time, 0.0f }))));
+				break;
+			}
+			DirectX::XMVECTOR quaternion = DirectX::XMQuaternionRotationAxis(cross, angle);
+
+			DirectX::XMVECTOR orien = DirectX::XMQuaternionMultiply(DirectX::XMLoadFloat4(&transform.rotation), quaternion);
+
+			DirectX::XMStoreFloat4(&transform.rotation, DirectX::XMQuaternionSlerp(DirectX::XMLoadFloat4(&transform.rotation), orien, 0.01f));
+		}
+		break;
+		}
+	}
+	break;
+	case 2:
+	{
+		switch (move_type)
+		{
+		case 0:
+			//todo : 00
+			model->play_animation(2, true);
+			timer = 0.0f;
+			move_type++;
+			break;
+		case 1:
+		{
+
+
+			transform.position =
+			{
+				transform.position.x + orient.x * 2.0f,
+				transform.position.y + orient.y * 2.0f,
+				transform.position.z + orient.z * 2.0f
+			};
+
+			if (timer > 0.5f)
+			{
+				motion_type = 0;
+				move_type = 0;
+			}
+			timer += elaspsed_time;
+		}
+		break;
+		}
+	}
+	break;
+	case 3:
+	{
+		switch (move_type)
+		{
+		case 0:
+			//todo : 00
+			model->play_animation(1, false);
+			timer = 0.0f;
+			move_type++;
+			break;
+		case 1:
+		{
+			if (!model->is_play_animation())
+			{
+				motion_type = 0;
+				move_type = 0;
+			}
+		}
+		break;
+		}
+	}
+	break;
 	}
 
 
-	if (KeyInput::key_state() & KEY_RIGHT)
+	/*if (KeyInput::key_state() & KEY_RIGHT)
 	{
-		transform.angle.y += DirectX::XMConvertToRadians(45) * elaspsed_time;
+		DirectX::XMStoreFloat4(&transform.rotation, DirectX::XMQuaternionMultiply(DirectX::XMLoadFloat4(&transform.rotation), DirectX::XMLoadFloat4(&transform.euler({ 0.0f, DirectX::XMConvertToRadians(45) * elaspsed_time, 0.0f }))));
 	}
 	if (KeyInput::key_state() & KEY_LEFT)
 	{
-		transform.angle.y -= DirectX::XMConvertToRadians(45) * elaspsed_time;
-	}
+		DirectX::XMStoreFloat4(&transform.rotation, DirectX::XMQuaternionMultiply(DirectX::XMLoadFloat4(&transform.rotation), DirectX::XMLoadFloat4(&transform.euler({ 0.0f, DirectX::XMConvertToRadians(-45) * elaspsed_time, 0.0f }))));
+	}*/
 
 	//•Ç“–‚½‚è”»’è
 	if (KeyInput::key_state() & KEY_UP)
@@ -67,7 +203,7 @@ void BossObject::update(std::shared_ptr<Collision> collision, std::shared_ptr<Mo
 		endPosition.x = startPosition.x + x;
 		endPosition.y = startPosition.y;
 		endPosition.z = startPosition.z + z;
-		
+
 		/*outPosition = endPosition;*/
 
 		collision->move_check(startPosition, endPosition, &outPosition);
@@ -90,7 +226,7 @@ void BossObject::update(std::shared_ptr<Collision> collision, std::shared_ptr<Mo
 	//	}
 	//}
 
-	transform.rotation = transform.euler(transform.angle);
+	//transform.rotation = transform.euler(transform.angle);
 	transform.update();
 }
 

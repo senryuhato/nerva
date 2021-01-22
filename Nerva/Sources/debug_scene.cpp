@@ -51,10 +51,10 @@ void DebugScene::initialize()
 	boss_model_renderer = std::make_shared<ModelRenderer>(device, false);
 	boss_model_renderer->set_shader(lambert_shader);
 
-	boss_model_resource = std::make_shared<ModelResource>(device, "Data/Boss/team_Doragon.fbx");
+	boss_model_resource = std::make_shared<ModelResource>(device, "Data/Boss/Salamander_.fbx");
 	//boss_model_resource = std::make_shared<ModelResource>(device, "Data/Player/EasyTank_Separate.fbx");
 	boss_model = std::make_shared<Model>(boss_model_resource);
-	boss_model->play_animation(0, true);
+	boss_model->play_animation(1, true);
 
 	boss_object = std::make_shared<BossObject>();
 	boss_object->initialize();
