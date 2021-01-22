@@ -183,6 +183,7 @@
     <ClCompile Include="Sources\main.cpp" />
     <ClCompile Include="Sources\Sound.cpp" />
     <ClCompile Include="Sources\static_object.cpp" />
+    <ClCompile Include="Sources\TPCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\ImGui\imconfig.h" />
@@ -221,6 +222,7 @@
     <ClInclude Include="Sources\movement_camera.h" />
     <ClInclude Include="Sources\Sound.h" />
     <ClInclude Include="Sources\static_object.h" />
+    <ClInclude Include="Sources\TPCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="NervaLib\fullscreen_quad.hlsli" />

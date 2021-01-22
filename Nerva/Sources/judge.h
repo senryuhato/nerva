@@ -38,4 +38,4 @@ bool isHitCapsuleCapsule(const DirectX::XMFLOAT3 p1, const DirectX::XMFLOAT3 e1,
 
 // 球とカプセルの衝突判定
 // p1:球の中心点 r1:球の半径 p2:カプセルの円柱部の一端 e2:カプセルの円柱部のもう一端 r2:カプセルの半径
-bool isHitSphere(const DirectX::XMFLOAT3 p1, const float r1, const DirectX::XMFLOAT3 p2, const DirectX::XMFLOAT3 e2, const float r2);
+bool isHitSphereCapsule(const DirectX::XMFLOAT3 p1, const float r1, const DirectX::XMFLOAT3 p2, const DirectX::XMFLOAT3 e2, const float r2);

@@ -310,7 +310,7 @@ bool isHitCapsuleCapsule(const DirectX::XMFLOAT3 p1, const DirectX::XMFLOAT3 e1,
 	return (d < r1 + r2);
 }
 
-bool isHitSphere(const DirectX::XMFLOAT3 p1, const float r1, const DirectX::XMFLOAT3 p2, const DirectX::XMFLOAT3 e2, const float r2)
+bool isHitSphereCapsule(const DirectX::XMFLOAT3 p1, const float r1, const DirectX::XMFLOAT3 p2, const DirectX::XMFLOAT3 e2, const float r2)
 {
 	using namespace DirectX;
 	XMFLOAT3 h1, h2;

@@ -1,11 +1,12 @@
 #include "../NervaLib/key_input.h"
+#include "framework.h"
 #include "judge.h"
 #include "player_object.h"
 
 void PlayerObject::update()
 {
 	move();
-	// direction();
+	direction();
 	attack();
 	// transform.angle.y += 0.01;
 // 	transform.rotation.y += 0.01;
@@ -71,8 +72,8 @@ void PlayerObject::move()
 		// アニメーションを回避に切り替える
 	}
 
-	DirectX::XMVECTOR Front = DirectX::XMVector3Normalize(DirectX::XMLoadFloat3(&Cfront));
-	DirectX::XMVECTOR Right = DirectX::XMVector3Normalize(DirectX::XMLoadFloat3(&Cright));
+	DirectX::XMVECTOR Front = DirectX::XMVector3Normalize(DirectX::XMLoadFloat3(&axisFront));
+	DirectX::XMVECTOR Right = DirectX::XMVector3Normalize(DirectX::XMLoadFloat3(&axisRight));
 
 	// 入力されたスピードのZ方向を X
 	DirectX::XMVECTOR Pos = DirectX::XMLoadFloat3(&transform.position);
@@ -184,6 +185,74 @@ void PlayerObject::setCameraAngle(const DirectX::XMFLOAT3 rotate)
 
 void PlayerObject::direction()
 {
+	return;
+	POINT cursor;
+	::GetCursorPos(&cursor);
+
+	old_cursor = current_cursor;
+	current_cursor = DirectX::XMFLOAT2(static_cast<float>(cursor.x), static_cast<float>(cursor.y));
+
+	float move_x = (current_cursor.x - old_cursor.x) * 0.02f;
+	float move_y = (current_cursor.y - old_cursor.y) * 0.02f;
+
+	// if (KeyInput::key_state() & KEY_ALT)
+	//{
+
+	//	{
+	//		// Y軸回転
+	//		rotate.y += move_x * 0.5f;
+	//		if (rotate.y > DirectX::XM_PI / 2)
+	//		{
+	//			rotate.y -= DirectX::XM_2PI;
+	//		}
+	//		else if (rotate.y < -DirectX::XM_PI / 2)
+	//		{
+	//			rotate.y += DirectX::XM_2PI;
+	//		}
+	//		if (rotate.y > DirectX::XMConvertToRadians(60))rotate.y = DirectX::XMConvertToRadians(60);
+	//		else if (rotate.y < DirectX::XMConvertToRadians(-60))rotate.y = DirectX::XMConvertToRadians(-60);
+
+	//		// X軸回転
+	//		rotate.x += move_y * 0.5f;
+	//		if (rotate.x > DirectX::XM_PI/2)
+	//		{
+	//			rotate.x -= DirectX::XM_2PI;
+	//		}
+	//		else if (rotate.x < -DirectX::XM_PI/2)
+	//		{
+	//			rotate.x += DirectX::XM_2PI;
+	//		}
+	//		if (rotate.x > DirectX::XMConvertToRadians(60))rotate.x = DirectX::XMConvertToRadians(60);
+	//		else if (rotate.x < DirectX::XMConvertToRadians(-60))rotate.x = DirectX::XMConvertToRadians(-60);
+
+	//	}
+	//}
+
+	RECT rc;
+	GetClientRect(Framework::instance().get_hwnd(), &rc);
+	float screen_width = rc.right - rc.left;
+	float screen_height = rc.bottom - rc.top;
+	if (current_cursor.x > screen_width / 2 + 1 || current_cursor.x < screen_width / 2 - 1 || current_cursor.y > screen_width / 2 + 1 || current_cursor.y < screen_height / 2 - 1)
+	{
+		::SetCursorPos(screen_width / 2, screen_height / 2);
+		::GetCursorPos(&cursor);
+		current_cursor = DirectX::XMFLOAT2(static_cast<float>(cursor.x), static_cast<float>(cursor.y));
+		old_cursor = current_cursor;
+	}
+
+	DirectX::XMMATRIX r_matrix = {};
+	r_matrix = DirectX::XMMatrixRotationRollPitchYaw(rotate.x, rotate.y, rotate.z);
+
+	DirectX::XMVECTOR right = DirectX::XMVector3TransformNormal(DirectX::XMVectorSet(1, 0, 0, 0), r_matrix);
+	DirectX::XMVECTOR up = DirectX::XMVector3TransformNormal(DirectX::XMVectorSet(0, 1, 0, 0), r_matrix);
+	DirectX::XMVECTOR front = DirectX::XMVector3TransformNormal(DirectX::XMVectorSet(0, 0, 1, 0), r_matrix);
+
+	
+	DirectX::XMStoreFloat3(&this->axisUp, up);
+	DirectX::XMStoreFloat3(&this->axisRight, right);
+	DirectX::XMStoreFloat3(&this->axisFront, front);
+
+	
 	/*DirectX::XMVECTOR f = DirectX::XMLoadFloat3(&Cfront);
 	DirectX::XMVECTOR r = DirectX::XMLoadFloat3(&Cright);
 
@@ -191,7 +260,7 @@ void PlayerObject::direction()
 	DirectX::XMStoreFloat3(&v1, DirectX::XMVectorAdd(f, r));*/
 
 	// transform.angle.y += dotAngleRadians(front, velocity);
-	transform.angle.y += dotAngleRadians(velocity, front);
+	transform.angle.y += dotAngleRadians(velocity, this->front);
 
 	// DirectX::XMFLOAT4 axis = { 0.0f,1.0f,0.0f,1.0f };
 	// DirectX::XMFLOAT4 rotate = { 0.0f,0.0f,0.0f,1.0f };

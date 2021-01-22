@@ -13,6 +13,16 @@ protected:
 	DirectX::XMFLOAT3 Cangle = { 0,0,0 };
 
 public:
+	DirectX::XMFLOAT2 current_cursor = {};
+	DirectX::XMFLOAT2 old_cursor = {};
+
+	DirectX::XMFLOAT3 rotate = {};
+
+	DirectX::XMFLOAT3 axisRight = { 1,0,0 };
+	DirectX::XMFLOAT3 axisUp = { 0,1,0 };
+	DirectX::XMFLOAT3 axisFront = { 0,0,1 };
+
+public:
 	// ˆÚ“®Œn
 	// ƒL[“ü—Í‚É‚æ‚éˆÚ“®
 	void move();
@@ -24,6 +34,6 @@ public:
 	// 
 	void direction();
 	
-
+	// void initialize();
 	void update();
 };

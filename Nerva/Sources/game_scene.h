@@ -11,6 +11,7 @@
 
 #include "scene.h"
 #include "camera.h"
+#include "TPCamera.h"
 #include "model_renderer.h"
 #include "player_object.h"
 
@@ -30,7 +31,7 @@ public:
 	std::unique_ptr<BlendState> blend_state;
 
 	//ƒJƒƒ‰
-	std::unique_ptr<Camera> camera;
+	std::unique_ptr<TPCamera> camera;
 
 	//shader
 	std::shared_ptr<Shader> lambert_shader;
