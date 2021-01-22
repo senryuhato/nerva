@@ -1,5 +1,9 @@
 #include "collision.h"
 
+#include "player_object.h"
+#include "boss_object.h"
+
+
 void Collision::register_terrain(std::shared_ptr<StaticObject>& obj)
 {
 	terrain = obj;
@@ -153,4 +157,10 @@ int Collision::move_check02(const DirectX::XMFLOAT3& startPosition, const Direct
 	}
 
 	return materialIndex;
+}
+
+
+void Hit::hit_judge(std::shared_ptr<PlayerObject> pl, std::shared_ptr<BossObject> bs)
+{
+
 }

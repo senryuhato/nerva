@@ -18,3 +18,13 @@ public:
 	int move_check(const DirectX::XMFLOAT3& start_position, const DirectX::XMFLOAT3& end_position, DirectX::XMFLOAT3* out_position, float range = 0.0f);
 	int move_check02(const DirectX::XMFLOAT3& start_position, const DirectX::XMFLOAT3& end_position, DirectX::XMFLOAT3* out_position, float range = 0.0f);
 };
+
+
+class PlayerObject;
+class BossObject;
+
+class Hit
+{
+public:
+	void hit_judge(std::shared_ptr<PlayerObject> pl, std::shared_ptr<BossObject> bs);
+};

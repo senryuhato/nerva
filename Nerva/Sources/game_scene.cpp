@@ -71,6 +71,9 @@ void GameScene::initialize()
 	camera = std::make_unique<TPCamera>();
 	camera->initialize();
 
+	hit = std::make_unique<Hit>();
+
+
 	//sprite
 		/*sprite = std::make_unique<Sprite>(device, L"Data/Sprite/earthmap.jpg");
 		sprite->set_shader(sprite_shader);*/
@@ -114,6 +117,8 @@ void GameScene::update()
 	boss_model->update_animation(1.0f / 60.0f);
 	boss_object->update(ground_collision, player_object);
 
+
+	hit->hit_judge(player_object, boss_object);
 }
 
 void GameScene::render()
