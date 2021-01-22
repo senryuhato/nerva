@@ -23,6 +23,9 @@ public:
 	DirectX::XMFLOAT3 axisUp = { 0,1,0 };
 	DirectX::XMFLOAT3 axisFront = { 0,0,1 };
 
+	float hp = 100;
+	bool hit = false;
+
 public:
 	// ˆÚ“®Œn
 	// ƒL[“ü—Í‚É‚æ‚éˆÚ“®

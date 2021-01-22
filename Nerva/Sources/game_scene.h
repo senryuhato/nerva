@@ -65,6 +65,19 @@ public:
 	//sprite
 	std::unique_ptr<Sprite> sprite;
 
+	std::unique_ptr<Sprite> clear;
+	std::unique_ptr<Sprite> over;
+
+	std::unique_ptr<Sprite> p_hp;
+	std::unique_ptr<Sprite> b_hp;
+
+	std::unique_ptr<Sprite> hp;
+
+	std::unique_ptr<Sprite> text;
+
+	//hit
+	std::unique_ptr<Hit> hit;
+
 public:
 	void initialize();
 	void update();

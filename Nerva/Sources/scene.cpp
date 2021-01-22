@@ -31,6 +31,7 @@ void SceneManager::initialize()
 
 	current_scene = "TITLE";
 
+
 	scenes.at(current_scene)->initialize();
 }
 

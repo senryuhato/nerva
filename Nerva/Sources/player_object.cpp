@@ -149,6 +149,7 @@ void PlayerObject::attack()
 			this->model->play_animation(1, false);
 			pursuit1 = false;
 			pursuit2 = false;
+			hit = false;
 		}
 	}
 
@@ -160,15 +161,18 @@ void PlayerObject::attack()
 		{
 			this->model->play_animation(2, false);
 			pursuit1 = false;
+			hit = true;
 		}
 		else if (pursuit2)
 		{
 			this->model->play_animation(3, false);
 			pursuit2 = false;
+			hit = true;
 		}
 		else
 		{
 			this->model->play_animation(5, true);
+			hit = false;
 		}
 	}
 
